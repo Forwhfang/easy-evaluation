@@ -89,7 +89,6 @@
   #menu{
     width:100%;
     margin:10px;
-    float:left;
     display: inline-block;
     background-color: rgb(137, 164, 214);
     box-shadow:0 1px 1px #ccc;
@@ -98,6 +97,7 @@
   #menu a{
     display: block;
     padding:18px 30px;
+    float:left;
     color:#fff;
     font-weight: bold;
     font-size:20px;
