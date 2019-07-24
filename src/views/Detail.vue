@@ -1,11 +1,7 @@
 <template>
   <div class="detail">
-    <div class="content">
       <DetailContent v-on="{submitLink:onSubmitLink,submitComment:onSubmitComment}" />
-    </div>
-    <div class="extend">
       <DetailExtend v-bind="{isVisible:isVisible, link:link, comment:comment}" />
-    </div>
   </div>
 </template>
 
@@ -47,17 +43,6 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-.content {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.extend {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  align-items: center;
 }
 </style>

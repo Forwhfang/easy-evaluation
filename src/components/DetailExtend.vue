@@ -1,15 +1,28 @@
 <template>
   <div class="extend" v-if="isVisible === true">
-    <p>{{ isVisible }}</p>
-    <p>{{ link }}</p>
-    <p>{{ comment }}</p>
+    <div class="header">
+      <h3 class="title">结 果 展 示</h3>
+    </div>
+    <div class="container">
+      占位符
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'DetailExtend',
-  props: ['isVisible', 'link', 'comment']
+  props: ['isVisible', 'link', 'comment'],
+  watch: {
+    link: function () {
+      console.log('link:' + this.link)
+      // 发送数据，接收数据，根据数据画图
+    },
+    comment: function () {
+      console.log('comment:' + this.comment)
+      // 发送数据，接收数据，根据数据画图
+    }
+  }
 }
 </script>
 
@@ -17,14 +30,27 @@ export default {
 .extend {
   width: 90%;
   height: 500px;
-  margin-top: 50px;
   margin-bottom: 50px;
   border: 1px solid white;
   border-radius: 20px;
   background: white;
   display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-size: 50px;
+}
+
+.contaiter {
+
 }
 </style>

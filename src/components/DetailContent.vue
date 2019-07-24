@@ -54,7 +54,6 @@ export default {
 
 .content-left {
   background: white;
-  margin-left: -80px;
 }
 
 .content-right {
