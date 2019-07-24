@@ -1,10 +1,10 @@
 <template>
   <div class="detail">
     <div class="content">
-      <DetailContent />
+      <DetailContent v-on="{submitLink:onSubmitLink,submitComment:onSubmitComment}" />
     </div>
     <div class="extend">
-      <DetailExtend />
+      <DetailExtend v-bind="{isVisible:isVisible, link:link, comment:comment}" />
     </div>
   </div>
 </template>
@@ -18,6 +18,23 @@ export default {
   components: {
     DetailContent,
     DetailExtend
+  },
+  data: function () {
+    return {
+      isVisible: false,
+      link: '',
+      comment: ''
+    }
+  },
+  methods: {
+    onSubmitLink: function (msg) {
+      this.isVisible = true
+      this.link = msg
+    },
+    onSubmitComment: function (msg) {
+      this.isVisible = true
+      this.comment = msg
+    }
   }
 }
 </script>

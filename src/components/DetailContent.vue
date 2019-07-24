@@ -6,11 +6,11 @@
     <div class="content-right">
       <div class="link">
         <input class="link-input" v-model="link" placeholder="请输入商品链接">
-        <button class="link-submit">提 交</button>
+        <button class="link-submit" v-on:click="onSubmitLink">提 交</button>
       </div>
       <div class="comment">
         <textarea class="comment-input" v-model="comment" placeholder="请输入商品评论"></textarea>
-        <button class="comment-submit">提 交</button>
+        <button class="comment-submit" v-on:click="onSubmitComment">提 交</button>
       </div>
     </div>
   </div>
@@ -24,6 +24,14 @@ export default {
       publicPath: process.env.BASE_URL,
       link: '',
       comment: ''
+    }
+  },
+  methods: {
+    onSubmitLink: function () {
+      this.$emit('submitLink', this.link)
+    },
+    onSubmitComment: function () {
+      this.$emit('submitComment', this.comment)
     }
   }
 }
@@ -46,7 +54,7 @@ export default {
 
 .content-left {
   background: white;
-  margin-left: -100px;
+  margin-left: -80px;
 }
 
 .content-right {
