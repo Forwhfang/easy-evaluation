@@ -50,7 +50,7 @@ export default {
   font-size: 50px;
 }
 
-.contaiter {
+.container {
 
 }
 </style>

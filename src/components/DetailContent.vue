@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="content-left">
-      <img :src="`${publicPath}xiaoxiong.PNG`"/>
+      <img class="image" :src="`${publicPath}xiaoxiong.PNG`"/>
     </div>
     <div class="content-right">
       <div class="link">
@@ -53,74 +53,97 @@ export default {
 }
 
 .content-left {
-  background: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
 }
 
 .content-right {
+  height: 90%;
+  width: 90%;
   display: flex;
   flex-direction: column;
-  margin-left: -80px;
+  justify-content: center;
+  flex: 2;
+  margin-left: -5%;
 }
 
 .link {
+  height: 10%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  align-items: flex-end;
+  align-items: center;
+  margin-right: 2%;
+  margin-bottom: 3%;
 }
 
 .link-input {
-  width: 750px;
-  height: 50px;
-  margin-bottom: 20px;
+  width: 90%;
+  height: 90%;
   border-radius: 10px;
   background: LightCyan;
   opacity: 0.5;
-  font-size: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
+  font-size: 100%;
+  font-weight: 500;
+  padding-left: 2%;
+  padding-right: 2%;
+  flex: 7;
+  margin-right: 2%;
 }
 
 .link-submit {
-  width: 80px;
-  height: 50px;
-  margin-left: 30px;
-  margin-bottom: 25px;
+  width: 50%;
+  height: 80%;
   border-radius: 10px;
   color: white;
   background: RGB(140,210,210);
   opacity: 0.5;
-  font-size: 20px;
+  font-weight: 700;
+  font-size: 100%;
+  flex: 1;
 }
 
 .comment {
+  height: 50%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: flex-end;
+  margin-right: 2%;
+  margin-top: 3%;
 }
 
 .comment-input {
-  width: 750px;
-  height: 250px;
-  margin-top: 20px;
+  width: 90%;
+  height: 90%;
   padding: 2px;
   border-radius: 15px;
   background: LightCyan;
   opacity: 0.5;
-  font-size: 20px;
-  padding: 20px;
+  font-size: 120%;
+  font-weight: 500;
+  padding: 2%;
+  flex: 7;
+  margin-right: 2%;
 }
 
 .comment-submit {
-  width: 80px;
-  height: 50px;
-  margin-left: 30px;
-  margin-bottom: 5px;
+  width: 50%;
+  height: 16%;
   border-radius: 10px;
   color: white;
   background: RGB(140,210,210);
   opacity: 0.5;
-  font-size: 20px;
+  font-weight: 700;
+  font-size: 100%;
+  flex: 1;
 }
 </style>
