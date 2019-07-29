@@ -22,10 +22,10 @@
               <img style=" height:520px;text-indent: 20px;" src="https://raw.githubusercontent.com/WindyZYY/myPicSource/master/timg.jpg">
             </div>
             <div id="bugForm">
-              <div style="text-align: center;line-height: 1;">
+              <div style="text-align:center;line-height: 1;">
                 <h2>联系我们</h2>
                 <h4>Contact With Us</h4>
-                <p style="font-weight: bold;">请填写信息:</p> <br>
+                <p style="font-weight: bold;">请填写信息:</p>
               </div>
               <form>
                 <label for="bug">问题反馈</label><br>
@@ -174,6 +174,8 @@
     -moz-column-count: 2; /* Firefox */
     column-count: 2;
     padding:20px;
+    display:flex;
+    flex-direction:row;
   }
   #bugForm{
     border:3px solid cornflowerblue;
