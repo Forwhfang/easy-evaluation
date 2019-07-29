@@ -117,7 +117,7 @@
     width:100%;
     margin:10px;
     display: inline-block;
-    background-color: rgb(137, 164, 214);
+    background-color: cornflowerblue;
     box-shadow:0 1px 1px #ccc;
     border-radius: 2px;
   }
