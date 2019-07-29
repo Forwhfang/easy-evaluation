@@ -9,32 +9,35 @@
         <div id="menu">
           <a href="#">首页</a>
           <router-link to="./Detail">评价分析</router-link>
-          <a href="#">联系我们</a>
+          <a style="cursor:pointer" @click="contactWithUs()">联系我们</a>
           <a style="float: right; cursor:pointer" @click="showDiv('forSignUp')">注册</a>
           <a style="float: right; cursor:pointer" @click="showDiv('forSignIn')">登录</a>                   
         </div>
       </div>
       <!--***************************************首页下半部分********************************-->
-      <div id="content">      
-        <div id="contact">
-          <div class="row">
-            <div>
-              <img style=" height:520px;text-indent: 20px;" src="https://raw.githubusercontent.com/WindyZYY/myPicSource/master/timg.jpg">
+      <div id="homeContent"> 
+
+          <p>首页</p>   
+        
+      </div>
+      <div id="contact">
+        <div class="row">
+          <div>
+            <img style=" height:520px;text-indent: 20px;" src="https://raw.githubusercontent.com/WindyZYY/myPicSource/master/timg.jpg">
+          </div>
+          <div id="bugForm">
+            <div style="text-align:center;line-height: 1;">
+              <h2>联系我们</h2>
+              <h4>Contact With Us</h4>
+              <p style="font-weight: bold;">请填写信息:</p>
             </div>
-            <div id="bugForm">
-              <div style="text-align:center;line-height: 1;">
-                <h2>联系我们</h2>
-                <h4>Contact With Us</h4>
-                <p style="font-weight: bold;">请填写信息:</p>
-              </div>
-              <form>
-                <label for="bug">问题反馈</label><br>
-                <input type="text" id="Bug" placeholder="请描述你的问题"><br>
-                <label for="phone">联系邮箱</label><br>
-                <input type="text" id="mailbox" placeholder="请输入你的邮箱"><br>
-                <input type="submit" value="提交">
-              </form>
-            </div>
+            <form style="text-align:left;">
+              <label for="bug">问题反馈</label><br>
+              <input type="text" id="Bug" placeholder="请描述你的问题"><br>
+              <label for="phone">联系邮箱</label><br>
+              <input type="text" id="mailbox" placeholder="请输入你的邮箱"><br>
+              <input type="submit" value="提交">
+            </form>
           </div>
         </div>
       </div>
@@ -98,15 +101,27 @@
       changeView:function(oldDiv,newDiv){
         document.getElementById(oldDiv).style.display = "none";
         document.getElementById(newDiv).style.display = "block";
+      },
+      contactWithUs:function(){
+        var h=document.getElementById("contact").style.height;
+        if(h=="0px"){
+          document.getElementById("contact").style.display="block"; 
+          document.getElementById("contact").style.height="200px";         
+        }else{
+          document.getElementById("contact").style.height="0";
+          setTimeout(function(){document.getElementById("contact").style.display="none"},500);           
+        }
       }
     }
   }
 </script>
 
 <style>
+<!--首页导航栏-->
   #header{
     top:0;
     position:sticky;
+    background-color:white;
   }
   #logo{
     display: block;
@@ -115,7 +130,6 @@
   }
   #menu{
     width:100%;
-    margin:10px;
     display: inline-block;
     background-color: cornflowerblue;
     box-shadow:0 1px 1px #ccc;
@@ -169,13 +183,24 @@
     box-sizing: border-box;
   }
 <!--***************************************style for contact****************************-->
+  #contact{
+    display:none;
+    flex-direction:row;
+    background-color: whitesmoke;
+    font:15px arial,san-serif;
+    width:auto;
+    height:0;
+    top:0; left:0;
+    position:fixed;
+    z-index:100;
+    box-shadow:0px 8px 16px 0px rgba(255,255,255,0.2);
+    transition:0.5s;
+  }
   .row{
     -webkit-column-count: 2; /* Chrome, Safari, Opera */
     -moz-column-count: 2; /* Firefox */
     column-count: 2;
     padding:20px;
-    display:flex;
-    flex-direction:row;
   }
   #bugForm{
     border:3px solid cornflowerblue;
