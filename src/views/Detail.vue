@@ -2,7 +2,10 @@
   <div class="detail">
     <div class="content">
       <div class="content-left">
-        <img class="image" :src="`${publicPath}xiaoxiong.PNG`" />
+        <router-link to="./">
+          <img class="image" :src="`${publicPath}xiaoxiong.PNG`" />
+          <p style="color:grey; font-size:14px;text-decoration:none; float:center;">点击图片返回主页</p>
+        </router-link>
       </div>
       <div class="content-right">
         <div class="link">

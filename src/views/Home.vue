@@ -2,21 +2,20 @@
     <div class="home">
       <!--***************************************首页上半部分********************************-->
       <div id="header">
-        <div id="logo" style="text-align:center;width:20%;">
-          <img alt="Vue logo" src="../assets/logo.png" style="width:20%;height:20%;">
+        <div id="logo" style="text-align:center;width:20%;padding-bottom:10px;">
+          <img alt="Vue logo" src="../assets/logo.png" style="width:20%;height:20%;"/>
           <span style="font-size:50px">易评</span>
         </div>
         <div id="menu">
           <a href="#">首页</a>
-          <a href="#">步骤指引</a>
+          <router-link to="./Detail">评价分析</router-link>
           <a href="#">联系我们</a>
           <a style="float: right; cursor:pointer" @click="showDiv('forSignUp')">注册</a>
-          <a style="float: right; cursor:pointer" @click="showDiv('forSignIn')">登录</a>                    
+          <a style="float: right; cursor:pointer" @click="showDiv('forSignIn')">登录</a>                   
         </div>
       </div>
       <!--***************************************首页下半部分********************************-->
-      <div id="content">
-      
+      <div id="content">      
         <div id="contact">
           <div class="row">
             <div>
