@@ -42,7 +42,7 @@
         <label for="remInfo" style="float:left;">记住密码</label>
         <label for="autoSignIn" style="float:right;">自动登录</label>
         <input type="checkbox" id="autoSignIn" v-model="autoS" style="float:right;"><br>
-        <button style="font-size:24px;" @click="signIn()">登录</button><br><br>
+        <button style="font-size:24px;" @click="signIn()" @keyup.enter="signIn()">登录</button><br><br>
         <span style="float: left;color:blue;font-weight:800;cursor:pointer;" @click="changeView('forSignIn','forSignUp')">新用户注册</span>
         <span style="float: right;color:rgb(161, 159, 159);cursor:pointer;">忘记密码</span>
       </div>
@@ -56,22 +56,26 @@
         <input type="password" name="ensurePwd" placeholder="确认密码" v-model="rePWD"><br>
         <input type="text" name="emailAdd" placeholder="邮箱地址" v-model="mailbox"><br><br>
         <span style="float: left;color:blue;font-size:20px;font-weight:800;cursor:pointer;" @click="changeView('forSignUp','forSignIn')">直接登录</span>
-        <span><button style="width:40%;margin:0;float: right;" @click="signUp">注册</button></span>
+        <span><button style="width:40%;margin:0;float: right;" @click="signUp" @keyup.enter="signUp()">注册</button></span>
       </div>      
     </div>
 </template>
   
 <script>
+import axios from 'axios'
+import qs from 'qs'
 export default {
   name: 'home',
-  data:{
-    remember:false,
-    autoS:false,
-    ifLogIn:false,
-    userID:'',
-    userPwd:'',
-    rePWD:'',
-    mailbox:''
+  data: function() {
+    return{
+      remember:false,
+      autoS:false,
+      ifLogIn:false,
+      userID:'',
+      userPwd:'',
+      rePWD:'',
+      mailbox:''
+    }
   },
   watch:{
     userID:function(val){

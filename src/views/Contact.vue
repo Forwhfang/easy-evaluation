@@ -15,7 +15,7 @@
             </div>
             <form style="text-align:left;">
               <label for="bug">问题反馈</label><br>
-              <input type="text" id="Bug" placeholder="请描述你的问题" v-model="problem"><br>
+              <textarea id="Bug" placeholder="请描述你的问题" v-model="problem"></textarea><br>
               <label for="phone">联系邮箱</label><br>
               <input type="text" id="mailbox" placeholder="请输入你的邮箱" v-model="conMail"><br>
               <a href="" id="sendmail" @click="submitBug()">提交</a>
@@ -28,10 +28,12 @@
 <script>
 export default{
     name:'contact',
-    date:{
-        problem:'',
-        conMail:'',
-        submitMail:'2867352322@qq.com',
+    date: function(){
+        return {
+            problem:'',
+            conMail:'',
+            submitMail:'2867352322@qq.com',
+        }
     },
     watch:{
         problem:function(val){
@@ -102,6 +104,7 @@ export default{
       height:80px;
       text-align:left;
       line-height:1;
+      font-size:16px;
   }
   #mailbox{
       height:40px;
