@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+import qs from 'qs'
 export default {
   name: 'detail',
   data: function () {
@@ -42,6 +44,25 @@ export default {
     onSubmitLink: function () {
       this.isVisible = true
       console.log(this.link)
+      // 点击提交链接按钮，调用翻译接口（测试用的）
+      // 将 formData 改成自己需要的值
+      let fromData = {
+          'i': 'Hello',
+          'doctype': 'json',
+          'from': 'AUTO',
+          'to': 'AUTO'
+      }
+      axios({
+          // 将 url 的值改成 '/api/接口名称' 这种形式，比如说登陆接口 '/api/login'
+          url: '/api/translate',
+          method: 'POST',
+          headers: { 'content-type': 'application/x-www-form-urlencoded' },
+          data: qs.stringify(fromData)
+      }).then(function(res) {
+          console.log(res.data);
+      }).catch(function(err) {
+          console.log(err);
+      })
     },
     onSubmitComment: function () {
       this.isVisible = true
