@@ -110,7 +110,7 @@ export default {
     },
     signIn:function(){
       console.log(this.userID)
-      console.loh(this.rePWD)
+      console.log(this.rePWD)
       let formData = {
         'username':this.userID,
         'password':this.rePWD,
