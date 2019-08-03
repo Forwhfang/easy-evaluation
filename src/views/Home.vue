@@ -116,7 +116,7 @@ export default {
         'password':this.rePWD,
       }
       axios({
-        url: '/api/login',
+        url: 'http://47.107.123.141/api/login',
         method: 'POST',
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(formData)
@@ -138,7 +138,7 @@ export default {
         'email':this.mailbox
       }
       axios({
-        url: '/api/register',
+        url: 'http://47.107.123.141/api/register',
         method: 'POST',
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(formData)
