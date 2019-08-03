@@ -18,11 +18,21 @@
         </div>
       </div>
     </div>
-    <div class="extend" v-if="isVisible === true">
+    <div class="result-for-link" v-if="isLink === true">
       <div class="header">
         <h3 class="title">结 果 展 示</h3>
       </div>
-      <div class="container">占位符</div>
+      <div class="container">
+        <p>占位符</p>
+      </div>
+    </div>
+    <div class="result-for-comment" v-if="isComment === true">
+      <div class="header">
+        <h3 class="title">结 果 展 示</h3>
+      </div>
+      <div class="container">
+        <p class='polarity'>{{ commentResult }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -35,31 +45,45 @@ export default {
   data: function () {
     return {
       publicPath: process.env.BASE_URL,
-      isVisible: false,
+      isLink: false,
+      isComment: false,
       link: '',
-      comment: ''
+      comment: '',
+      commentResult: ''
     }
   },
   methods: {
     onSubmitLink: function () {
-      this.isVisible = true
+      this.isComment = false
+      this.isLink = true
       console.log(this.link)
     },
     onSubmitComment: function () {
-      this.isVisible = true
+      this.isLink = false
+      this.isComment = true
       console.log(this.comment)
-      let fromData = {
+      let that = this
+      let formData = {
           'comment': this.comment
       }
       axios({
-          url: 'http://47.107.123.141/api/analyze',
-          method: 'POST',
-          headers: { 'content-type': 'application/x-www-form-urlencoded' },
-          data: qs.stringify(fromData)
-      }).then(function(res) {
-          console.log(res.data);
-      }).catch(function(err) {
-          console.log(err);
+        url: 'http://47.107.123.141/api/analyze',
+        method: 'POST',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(formData)
+      }).then(function (res) {
+        console.log(res)
+        if (res.data.code === 'success') {
+          if (res.data.message === 'positive') {
+            that.commentResult = '该 评 论 是 一 条 正 面 评 论 哦 ！'
+          } else {
+            that.commentResult = '该 评 论 是 一 条 负 面 评 论 哦 ！'
+          }
+        } else {
+          that.commentResult = '对 不 起，请 求 失 败，请 重 试！'
+        }
+      }).catch(function (err) {
+        console.log(err)
       })
     }
   }
@@ -70,6 +94,7 @@ export default {
 .detail {
   height: 100%;
   width: 100%;
+  margin: 50px 0;
   background: cornflowerblue;
   display: flex;
   flex-direction: column;
@@ -89,6 +114,7 @@ export default {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.8);
 }
 
 .content-left {
@@ -186,15 +212,28 @@ export default {
   flex: 1;
 }
 
-.extend {
+.result-for-link {
   width: 90%;
-  height: 500px;
+  height: 1000px;
   margin-bottom: 50px;
   border: 1px solid white;
   border-radius: 20px;
   background: white;
   display: flex;
   flex-direction: column;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.8);
+}
+
+.result-for-comment {
+  width: 90%;
+  height: 400px;
+  margin-bottom: 50px;
+  border: 1px solid white;
+  border-radius: 20px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.8);
 }
 
 .header {
@@ -202,7 +241,6 @@ export default {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  margin-bottom: 30px;
 }
 
 .title {
@@ -210,6 +248,11 @@ export default {
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
+}
 
+.polarity {
+  font-size: 30px;
 }
 </style>
