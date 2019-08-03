@@ -17,7 +17,7 @@
               <label for="bug">问题反馈</label><br>
               <textarea id="Bug" placeholder="请描述你的问题" v-model="problem"></textarea><br>
               <label for="phone">联系邮箱</label><br>
-              <input type="text" id="mailbox" placeholder="请输入你的邮箱" v-model="conMail"><br>
+              <input type="email" id="mailbox" placeholder="请输入你的邮箱" v-model="conMail"><br>
               <a href="" id="sendmail" @click="submitBug()">提交</a>
             </form>
           </div>
@@ -91,7 +91,7 @@ export default{
     width:80%;
     font-size:18px;
   }
-  #bugForm input[type=text], textarea {
+  #bugForm input[type=text], input[type=email],textarea {
     width:100%;
     padding: 6px;
     border: 1px solid #ccc;

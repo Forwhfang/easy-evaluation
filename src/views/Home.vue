@@ -36,8 +36,8 @@
           <p>登录</p>
           <p style="font-family:monospace;font-style:italic;">Sign In</p>
         </div>
-        <input type="text" name="user_id" placeholder="用户名" v-model="userID"><br>
-        <input type="password" name="pwd" placeholder="密码" v-model="rePWD"><br><br>
+        <input type="text" name="user_id" placeholder="用户名" v-model="userID" required><br>
+        <input type="password" name="pwd" placeholder="密码" v-model="rePWD" required><br><br>
         <input type="checkbox" id="remInfo" style="float:left;" v-model="remember">
         <label for="remInfo" style="float:left;">记住密码</label>
         <label for="autoSignIn" style="float:right;">自动登录</label>
@@ -51,10 +51,10 @@
           <p>注册</p>
           <p style="font-family:monospace;font-style:italic;">Sign Up</p>
         </div>
-        <input type="text" name="user_name" placeholder="用户名" v-model="userID"><br>
-        <input type="password" name="pwd" placeholder="密码" v-model="userPwd"><br>
-        <input type="password" name="ensurePwd" placeholder="确认密码" v-model="rePWD"><br>
-        <input type="text" name="emailAdd" placeholder="邮箱地址" v-model="mailbox"><br><br>
+        <input type="text" name="user_name" placeholder="用户名" v-model="userID" required><br>
+        <input type="password" name="pwd" placeholder="密码" v-model="userPwd" required><br>
+        <input type="password" name="ensurePwd" placeholder="确认密码" v-model="rePWD" required><br>
+        <input type="email" name="emailAdd" placeholder="邮箱地址" v-model="mailbox" required><br><br>
         <span style="float: left;color:blue;font-size:20px;font-weight:800;cursor:pointer;" @click="changeView('forSignUp','forSignIn')">直接登录</span>
         <span><button style="width:40%;margin:0;float: right;" @click="signUp" @keyup.enter="signUp()">注册</button></span>
       </div>      
@@ -205,7 +205,7 @@ export default {
     transform: translate(-50%,-50%);                
     z-index:1002;
   }
-  input[type=text], input[type=password],select{
+  input[type=text], input[type=password],input[type=email],select{
     padding:12px 20px;
     margin:16px 0 0px;
     display: inline-block;
