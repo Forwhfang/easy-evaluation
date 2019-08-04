@@ -55,13 +55,16 @@
         <input type="text" name="user_name" placeholder="用户名" v-model="userID" required><br>
         <input type="password" name="pwd" placeholder="密码" v-model="userPwd" required><br>
         <input type="password" name="ensurePwd" placeholder="确认密码" v-model="rePWD" required><br>
-        <input type="email" name="emailAdd" placeholder="邮箱地址" v-model="mailbox" required><br><br>
-        <span style="float: left;color:blue;font-size:20px;font-weight:800;cursor:pointer;" @click="changeView('forSignUp','forSignIn')">直接登录</span>
-        <span><button style="width:40%;margin:0;float: right;" @click="signUp" @keyup.enter="signUp()">注册</button></span>
+        <input type="email" name="emailAdd" placeholder="邮箱地址" v-model="mailbox" required><br>
+        <input type="text" name="confirm_code" placeholder="验证码" v-model="confirmcode" style="width:50%;" required>
+        <span><button style="width:25%; margin-left:12px;padding:5px;" @click="verify"">获取</button></span><br><br>
+        <span style="color:blue;font-size:20px;font-weight:800;cursor:pointer;" @click="changeView('forSignUp','forSignIn')">直接登录</span>
+        <span><button style="width:40%;margin-left:20px;" @click="signUp" @keyup.enter="signUp()">注册</button></span>
       </div>      
      <!--*****************************************弹窗显示提示信息************************************-->
       <div id="msgShow">
-
+        <div id="msg"></div>
+        <span @click="{document.getElementById('msgShow').style.display="block";}"</span>
       </div>
     </div>
 </template>
@@ -79,7 +82,8 @@ export default {
       userID:'',
       userPwd:'',
       rePWD:'',
-      mailbox:''
+      mailbox:'',
+      confirmcode: ''
     }
   },
   watch:{
@@ -94,6 +98,9 @@ export default {
     },
     mailbox:function(val){
       this.mailbox=val;
+    },
+    confirmcode:function(val){
+      this.confirmcode=val;
     }
   },
   methods:{
@@ -130,8 +137,7 @@ export default {
         self.ifLogIn = true;
         alert(res.data.message);
         if(self.ifLogIn){
-          document.getElementById('forSignIn').style.display = "none";
-          document.getElementById('bg_div').style.display = "none";
+          self.$options.methods.hideDiv();
           document.getElementById('login').style.display = "none";
           document.getElementById('signup').style.display = "none";
           document.getElementById('logout').style.display = "block";
@@ -141,16 +147,33 @@ export default {
         alert(res.data.message);
       }) 
     },
+    verify:function(){
+      let formData = {
+        'email':this.mailbox
+      }
+      axios({
+        url: 'http://47.107.123.141/api/verify',
+        method: 'POST',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(formData)
+      }).then(function(res) {
+        console.log(res.data.code);
+      }).catch(function(err) {
+        console.log(err);
+      }) 
+    },    
     signUp:function(){
       console.log(this.userID)
       console.log(this.userPwd)
       console.log(this.rePWD)
       console.log(this.mailbox)
+      console.log(this.confirmcode)
       let formData = {
         'username':this.userID,
         'password':this.userPwd,
         'password2':this.rePWD,
-        'email':this.mailbox
+        'email':this.mailbox,
+        'confirmcode':this.confirmcode
       }
       axios({
         url: 'http://47.107.123.141/api/register',
@@ -213,13 +236,18 @@ export default {
     display: none;
     position:absolute;
     margin:auto;
-    padding: 10px 40px 20px;
     border:3px solid rgb(80, 80, 248);
     border-radius: 20px;
     top:50%;left:50%;
     -ms-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);                
     z-index:1002;
+  }
+  #forSignIn{
+    padding: 10px 40px 20px;
+  }
+  #forSignUp{
+    padding: 15px;
   }
   input[type=text], input[type=password],input[type=email],select{
     padding:12px 20px;
