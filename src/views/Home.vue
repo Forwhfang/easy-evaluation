@@ -10,8 +10,9 @@
           <a href="#homeContent">首页</a>
           <router-link to="./Detail">评价分析</router-link>
           <router-link to="./Contact">联系我们</router-link>
-          <a style="float: right; cursor:pointer" @click="showDiv('forSignUp')">注册</a>
-          <a style="float: right; cursor:pointer" @click="showDiv('forSignIn')">登录</a>
+          <a id="signup" style="float: right; cursor:pointer" @click="showDiv('forSignUp')">注册</a>
+          <a id="login" style="float: right; cursor:pointer" @click="showDiv('forSignIn')">登录</a>
+          <a id="logout" style="float: right; cursor:pointer; display:none;" @click="logOut()">退出</a>
         </div>
       </div>
      <!--***************************************首页下半部分********************************-->    
@@ -58,6 +59,10 @@
         <span style="float: left;color:blue;font-size:20px;font-weight:800;cursor:pointer;" @click="changeView('forSignUp','forSignIn')">直接登录</span>
         <span><button style="width:40%;margin:0;float: right;" @click="signUp" @keyup.enter="signUp()">注册</button></span>
       </div>      
+     <!--*****************************************弹窗显示提示信息************************************-->
+      <div id="msgShow">
+
+      </div>
     </div>
 </template>
   
@@ -97,7 +102,6 @@ export default {
       document.getElementById('bg_div').style.display = 'block';
       var bgDiv=document.getElementById('bg_div');
       bgDiv.style.width=document.body.scrollWidth;
-      $("#"+bg_div).height($(document).height());
     },
     hideDiv:function(){
       document.getElementById('forSignIn').style.display = "none";
@@ -115,6 +119,7 @@ export default {
         'username':this.userID,
         'password':this.rePWD,
       }
+      var self = this;
       axios({
         url: 'http://47.107.123.141/api/login',
         method: 'POST',
@@ -122,8 +127,18 @@ export default {
         data: qs.stringify(formData)
       }).then(function(res) {
         console.log(res.data);
+        self.ifLogIn = true;
+        alert(res.data.message);
+        if(self.ifLogIn){
+          document.getElementById('forSignIn').style.display = "none";
+          document.getElementById('bg_div').style.display = "none";
+          document.getElementById('login').style.display = "none";
+          document.getElementById('signup').style.display = "none";
+          document.getElementById('logout').style.display = "block";
+        }
       }).catch(function(err) {
         console.log(err);
+        alert(res.data.message);
       }) 
     },
     signUp:function(){
@@ -144,6 +159,7 @@ export default {
         data: qs.stringify(formData)
       }).then(function(res) {
         console.log(res.data);
+        alert(res.data.message);
       }).catch(function(err) {
         console.log(err);
       })  
@@ -173,7 +189,7 @@ export default {
     border-radius: 2px;
   }
   #menu a{
-    display: block;
+    display:block;
     padding:18px 30px;
     float:left;
     color:#fff;
