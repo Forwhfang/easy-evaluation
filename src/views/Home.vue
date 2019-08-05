@@ -57,135 +57,135 @@
         <input type="password" name="ensurePwd" placeholder="确认密码" v-model="rePWD" required><br>
         <input type="email" name="emailAdd" placeholder="邮箱地址" v-model="mailbox" required><br>
         <input type="text" name="confirm_code" placeholder="验证码" v-model="confirmcode" style="width:50%;" required>
-        <span><button style="width:25%; margin-left:12px;padding:5px;" @click="verify"">获取</button></span><br><br>
+        <span><button style="width:25%; margin-left:12px;padding:5px;" @click="verify">获取</button></span><br><br>
         <span style="color:blue;font-size:20px;font-weight:800;cursor:pointer;" @click="changeView('forSignUp','forSignIn')">直接登录</span>
         <span><button style="width:40%;margin-left:20px;" @click="signUp" @keyup.enter="signUp()">注册</button></span>
-      </div>      
+      </div>
      <!--*****************************************弹窗显示提示信息************************************-->
       <div id="msgShow">
         <div id="msg"></div>
-        <span @click="{document.getElementById('msgShow').style.display="block";}"</span>
+        <span @click="">确定</span>
       </div>
     </div>
 </template>
-  
+
 <script>
 import axios from 'axios'
 import qs from 'qs'
 export default {
   name: 'home',
-  data: function() {
-    return{
-      remember:false,
-      autoS:false,
-      ifLogIn:false,
-      userID:'',
-      userPwd:'',
-      rePWD:'',
-      mailbox:'',
+  data: function () {
+    return {
+      remember: false,
+      autoS: false,
+      ifLogIn: false,
+      userID: '',
+      userPwd: '',
+      rePWD: '',
+      mailbox: '',
       confirmcode: ''
     }
   },
-  watch:{
-    userID:function(val){
-      this.userID=val;
+  watch: {
+    userID: function (val) {
+      this.userID = val
     },
-    userPwd:function(val){
-      this.userPwd=val;
+    userPwd: function (val) {
+      this.userPwd = val
     },
-    rePWD:function(val){
-      this.rePWD=val;
+    rePWD: function (val) {
+      this.rePWD = val
     },
-    mailbox:function(val){
-      this.mailbox=val;
+    mailbox: function (val) {
+      this.mailbox = val
     },
-    confirmcode:function(val){
-      this.confirmcode=val;
+    confirmcode: function (val) {
+      this.confirmcode = val
     }
   },
-  methods:{
-    showDiv:function(show_div){
-      document.getElementById(show_div).style.display = 'block';
-      document.getElementById('bg_div').style.display = 'block';
-      var bgDiv=document.getElementById('bg_div');
-      bgDiv.style.width=document.body.scrollWidth;
+  methods: {
+    showDiv: function (show_div) {
+      document.getElementById(show_div).style.display = 'block'
+      document.getElementById('bg_div').style.display = 'block'
+      var bgDiv = document.getElementById('bg_div')
+      bgDiv.style.width = document.body.scrollWidth
     },
-    hideDiv:function(){
-      document.getElementById('forSignIn').style.display = "none";
-      document.getElementById('forSignUp').style.display = "none";
-      document.getElementById('bg_div').style.display = "none";
+    hideDiv: function () {
+      document.getElementById('forSignIn').style.display = 'none'
+      document.getElementById('forSignUp').style.display = 'none'
+      document.getElementById('bg_div').style.display = 'none'
     },
-    changeView:function(oldDiv,newDiv){
-      document.getElementById(oldDiv).style.display = "none";
-      document.getElementById(newDiv).style.display = "block";
+    changeView: function (oldDiv, newDiv) {
+      document.getElementById(oldDiv).style.display = 'none'
+      document.getElementById(newDiv).style.display = 'block'
     },
-    signIn:function(){
+    signIn: function () {
       console.log(this.userID)
       console.log(this.rePWD)
       let formData = {
-        'username':this.userID,
-        'password':this.rePWD,
+        'username': this.userID,
+        'password': this.rePWD
       }
-      var self = this;
+      var self = this
       axios({
         url: 'http://47.107.123.141/api/login',
         method: 'POST',
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(formData)
-      }).then(function(res) {
-        console.log(res.data);
-        self.ifLogIn = true;
-        alert(res.data.message);
-        if(self.ifLogIn){
-          self.$options.methods.hideDiv();
-          document.getElementById('login').style.display = "none";
-          document.getElementById('signup').style.display = "none";
-          document.getElementById('logout').style.display = "block";
+      }).then(function (res) {
+        console.log(res.data)
+        self.ifLogIn = true
+        alert(res.data.message)
+        if(self.ifLogIn) {
+          self.$options.methods.hideDiv()
+          document.getElementById('login').style.display = 'none'
+          document.getElementById('signup').style.display = 'none'
+          document.getElementById('logout').style.display = 'block'
         }
-      }).catch(function(err) {
-        console.log(err);
-        alert(res.data.message);
-      }) 
+      }).catch(function (err) {
+        console.log(err)
+        alert(err)
+      })
     },
-    verify:function(){
+    verify: function () {
       let formData = {
-        'email':this.mailbox
+        'email': this.mailbox
       }
       axios({
         url: 'http://47.107.123.141/api/verify',
         method: 'POST',
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(formData)
-      }).then(function(res) {
-        console.log(res.data.code);
-      }).catch(function(err) {
-        console.log(err);
-      }) 
-    },    
-    signUp:function(){
+      }).then(function (res) {
+        console.log(res.data.code)
+      }).catch(function (err) {
+        console.log(err)
+      })
+    },
+    signUp: function () {
       console.log(this.userID)
       console.log(this.userPwd)
       console.log(this.rePWD)
       console.log(this.mailbox)
       console.log(this.confirmcode)
       let formData = {
-        'username':this.userID,
-        'password':this.userPwd,
-        'password2':this.rePWD,
-        'email':this.mailbox,
-        'confirmcode':this.confirmcode
+        'username': this.userID,
+        'password': this.userPwd,
+        'password2': this.rePWD,
+        'email': this.mailbox,
+        'confirmcode': this.confirmcode
       }
       axios({
         url: 'http://47.107.123.141/api/register',
         method: 'POST',
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(formData)
-      }).then(function(res) {
-        console.log(res.data);
-        alert(res.data.message);
-      }).catch(function(err) {
-        console.log(err);
-      })  
+      }).then(function (res) {
+        console.log(res.data)
+        alert(res.data.message)
+      }).catch(function (err) {
+        console.log(err)
+      })
     }
   }
 }
@@ -240,7 +240,7 @@ export default {
     border-radius: 20px;
     top:50%;left:50%;
     -ms-transform: translate(-50%,-50%);
-    transform: translate(-50%,-50%);                
+    transform: translate(-50%,-50%);
     z-index:1002;
   }
   #forSignIn{
