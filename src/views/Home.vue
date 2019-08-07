@@ -45,7 +45,7 @@
         <input type="checkbox" id="autoSignIn" v-model="autoS" style="float:right;"><br>
         <button style="font-size:24px;" @click="signIn()" @keyup.enter="signIn()">登录</button><br><br>
         <span style="float: left;color:blue;font-weight:800;cursor:pointer;" @click="changeView('forSignIn','forSignUp')">新用户注册</span>
-        <span style="float: right;color:rgb(161, 159, 159);cursor:pointer;">忘记密码</span>
+        <span style="float: right;color:rgb(161, 159, 159);cursor:pointer;" @click="changeView('forSignIn','forReset')">忘记密码</span>
       </div>
       <div id="forSignUp" class="div_content">
         <div style="text-align:center;font-size:28px; line-height:20%;">
@@ -61,11 +61,25 @@
         <span style="color:blue;font-size:20px;font-weight:800;cursor:pointer;" @click="changeView('forSignUp','forSignIn')">直接登录</span>
         <span><button style="width:40%; margin-left:12px;" @click="signUp" @keyup.enter="signUp()">注册</button></span>
       </div>
+      <div id="forReset" class="div_content">
+        <div style="text-align:center;font-size:28px; line-height:20%;">
+          <p>重置密码</p>
+          <p style="font-family:monospace;font-style:italic;">Reset PWD</p>
+        </div>
+        <input type="text" name="user_name" placeholder="用户名" v-model="userID" required><br>
+        <input type="password" name="pwd" placeholder="新密码" v-model="userPwd" required><br>
+        <input type="password" name="ensurePwd" placeholder="确认密码" v-model="rePWD" required><br>
+        <input type="email" name="emailAdd" placeholder="邮箱地址" v-model="mailbox" required><br>
+        <input type="text" name="confirm_code" placeholder="验证码" v-model="confirmcode" style="width:50%;" required>
+        <span><button style="width:25%; margin-left:12px; padding:5px;" @click="verify">获取</button></span><br><br>
+        <span style="color:blue;font-size:20px;font-weight:800;cursor:pointer;" @click="changeView('forReset','forSignIn')">直接登录</span>
+        <span><button style="width:40%; margin-left:12px;" @click="resetPwd" @keyup.enter="resetPwd">重置密码</button></span>
+      </div>
      <!--*****************************************弹窗显示提示信息************************************-->
       <div id="msgShow">
         <div id="msg"></div>
         <span @click="hidemsg()">确定</span>
-      </div>
+      </div>    
     </div>
 </template>
 
@@ -112,6 +126,7 @@ export default {
     hideDiv: function () {
       document.getElementById('forSignIn').style.display = 'none'
       document.getElementById('forSignUp').style.display = 'none'
+      document.getElementById('forReset').style.display = 'none'
       document.getElementById('bg_div').style.display = 'none'
     },
     changeView: function (oldDiv, newDiv) {
@@ -145,18 +160,8 @@ export default {
         self.$options.methods.showmsg(err)
       })
     },
-    logOut: function () {
-      axios({
-        url: 'http://47.107.123.141/api/logout',
-        method: 'POST',
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: ''
-      }).then(function (res) {
-        console.log(res.data)
-        alert(res.data.message)
-      }).catch(function (err) {
-        console.log(err)
-      })
+    resetPwd: function () {
+
     },
     verify: function () {
       let formData = {
@@ -194,6 +199,24 @@ export default {
       }).then(function (res) {
         console.log(res.data)
         alert(res.data.message)
+      }).catch(function (err) {
+        console.log(err)
+      })
+    },
+    logOut: function () {
+      axios({
+        url: 'http://47.107.123.141/api/logout',
+        method: 'POST',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: null
+      }).then(function (res) {
+        console.log(res.data)
+        alert(res.data.message)
+        if(res.data.code = 'success'){
+          document.getElementById('login').style.display = 'block'
+          document.getElementById('signup').style.display = 'block'
+          document.getElementById('logout').style.display = 'none'
+        }
       }).catch(function (err) {
         console.log(err)
       })
@@ -265,7 +288,7 @@ export default {
   #forSignIn{
     padding: 10px 40px 20px;
   }
-  #forSignUp{
+  #forSignUp, #forReset{
     padding: 15px;
   }
   input[type=text], input[type=password],input[type=email],select{
