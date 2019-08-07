@@ -57,14 +57,14 @@
         <input type="password" name="ensurePwd" placeholder="确认密码" v-model="rePWD" required><br>
         <input type="email" name="emailAdd" placeholder="邮箱地址" v-model="mailbox" required><br>
         <input type="text" name="confirm_code" placeholder="验证码" v-model="confirmcode" style="width:50%;" required>
-        <span><button style="width:25%; margin-left:12px;padding:5px;" @click="verify">获取</button></span><br><br>
+        <span><button style="width:25%; margin-left:12px; padding:5px;" @click="verify">获取</button></span><br><br>
         <span style="color:blue;font-size:20px;font-weight:800;cursor:pointer;" @click="changeView('forSignUp','forSignIn')">直接登录</span>
-        <span><button style="width:40%;margin-left:20px;" @click="signUp" @keyup.enter="signUp()">注册</button></span>
+        <span><button style="width:40%; margin-left:12px;" @click="signUp" @keyup.enter="signUp()">注册</button></span>
       </div>
      <!--*****************************************弹窗显示提示信息************************************-->
       <div id="msgShow">
         <div id="msg"></div>
-        <span @click="">确定</span>
+        <span @click="hidemsg()">确定</span>
       </div>
     </div>
 </template>
@@ -78,7 +78,6 @@ export default {
     return {
       remember: false,
       autoS: false,
-      ifLogIn: false,
       userID: '',
       userPwd: '',
       rePWD: '',
@@ -134,9 +133,8 @@ export default {
         data: qs.stringify(formData)
       }).then(function (res) {
         console.log(res.data)
-        self.ifLogIn = true
         alert(res.data.message)
-        if(self.ifLogIn) {
+        if(res.data.code=='success') {
           self.$options.methods.hideDiv()
           document.getElementById('login').style.display = 'none'
           document.getElementById('signup').style.display = 'none'
@@ -144,7 +142,20 @@ export default {
         }
       }).catch(function (err) {
         console.log(err)
-        alert(err)
+        self.$options.methods.showmsg(err)
+      })
+    },
+    logOut: function () {
+      axios({
+        url: 'http://47.107.123.141/api/logout',
+        method: 'POST',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: ''
+      }).then(function (res) {
+        console.log(res.data)
+        alert(res.data.message)
+      }).catch(function (err) {
+        console.log(err)
       })
     },
     verify: function () {
@@ -186,6 +197,14 @@ export default {
       }).catch(function (err) {
         console.log(err)
       })
+    },
+    showmsg: function (msg) {
+      document.getElementById('msg').innerHTML = msg
+      document.getElementById('msgShow').style.display = 'block'
+      setTimeout(function(){document.getElementById('msgShow').style.display='none'},800)
+    },
+    hide: function () {
+      document.getElementById('msgShow').style.display = 'none'
     }
   }
 }
@@ -279,5 +298,28 @@ export default {
   }
   #homeContent{
     line-height:0.8;
+  }
+  #msgShow{
+    display:none;
+    border:1px solid lightblue;
+    border-radius:10px;
+    background:white;
+    width:100px;
+    height:auto;
+    top:0;
+    padding:10px;
+    overflow:hidden;
+    transition:0.5s;
+    z-index:10000;
+  }
+  #msgShow span{
+    margin-top:10px;
+    padding:3px;
+    border-radius:5px;
+    background-color:cornflowerblue;
+    z-index:1000;
+  }
+  #msgShow span:hover{
+    background-color:rgb(56,120,238)
   }
 </style>
