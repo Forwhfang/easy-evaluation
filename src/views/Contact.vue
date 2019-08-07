@@ -18,7 +18,7 @@
               <textarea id="Bug" placeholder="请描述你的问题" v-model="problem"></textarea><br>
               <label for="phone">联系邮箱</label><br>
               <input type="email" id="mailbox" placeholder="请输入你的邮箱" v-model="conMail"><br>
-              <a href="" id="sendmail" @click="submitBug()">提交</a>
+              <a id="sendmail" @click="submitBug()">提交</a>
             </form>
           </div>
         </div>
@@ -26,13 +26,14 @@
 </template>
 
 <script>
+import axios from 'axios'
+import qs from 'qs'
 export default{
     name:'contact',
     date: function(){
         return {
             problem:'',
             conMail:'',
-            submitMail:'2867352322@qq.com',
         }
     },
     watch:{
@@ -45,9 +46,24 @@ export default{
     },
     methods:{
         submitBug:function(){
-            var url = "mailto:"+this.submitMail+"?subject="+"用户反馈"+"&body="+this.problem;
-            document.getElementById("sendmail").setAttributes("href",url);
+          console.log(this.problem)
+          console.log(this.conMail)
+          let formData = {
+            'problem': this.problem,
+            'conMail': this.conMail
         }
+        axios({
+          url: 'http://47.107.123.141/api/contact',
+          method: 'POST',
+          headers: { 'content-type': 'application/x-www-form-urlencoded' },
+          data: qs.stringify(formData)
+        }).then(function (res) {
+          console.log(res.data)
+          alert(res.data.message)
+        }).catch(function (err) {
+          console.log(err)
+        })
+      }
     }
 }
 </script>

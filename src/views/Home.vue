@@ -161,7 +161,29 @@ export default {
       })
     },
     resetPwd: function () {
-
+      console.log(this.userID)
+      console.log(this.userPwd)
+      console.log(this.rePWD)
+      console.log(this.mailbox)
+      console.log(this.confirmcode)
+      let formData = {
+        'username': this.userID,
+        'password': this.userPwd,
+        'password2': this.rePWD,
+        'email': this.mailbox,
+        'confirmcode': this.confirmcode
+      }
+      axios({
+        url: 'http://47.107.123.141/api/reset',
+        method: 'POST',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(formData)
+      }).then(function (res) {
+        console.log(res.data)
+        alert(res.data.message)
+      }).catch(function (err) {
+        console.log(err)
+      })
     },
     verify: function () {
       let formData = {
