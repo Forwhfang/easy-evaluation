@@ -29,42 +29,42 @@
 import axios from 'axios'
 import qs from 'qs'
 export default{
-    name:'contact',
-    date: function(){
-        return {
-            problem:'',
-            conMail:'',
-        }
-    },
-    watch:{
-        problem:function(val){
-            this.problem=val;
-        },
-        conMail:function(val){
-            this.conMail=val;
-        }
-    },
-    methods:{
-        submitBug:function(){
-          console.log(this.problem)
-          console.log(this.conMail)
-          let formData = {
-            'problem': this.problem,
-            'conMail': this.conMail
-        }
-        axios({
-          url: 'http://47.107.123.141/api/contact',
-          method: 'POST',
-          headers: { 'content-type': 'application/x-www-form-urlencoded' },
-          data: qs.stringify(formData)
-        }).then(function (res) {
-          console.log(res.data)
-          alert(res.data.message)
-        }).catch(function (err) {
-          console.log(err)
-        })
-      }
+  name: 'contact',
+  date: function(){
+    return {
+      problem: '',
+      conMail: '',
     }
+  },
+  watch: {
+    problem: function (val) {
+      this.problem = val
+    },
+    conMail: function (val) {
+      this.conMail = val
+    }
+  },
+  methods:{
+    submitBug: function () {
+      console.log(this.problem)
+      console.log(this.conMail)
+      let formData = {
+        'problem': this.problem,
+        'conMail': this.conMail
+      }
+      axios({
+        url: 'http://47.107.123.141/api/contact',
+        method: 'POST',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(formData)
+      }).then(function (res) {
+        console.log(res.data)
+        alert(res.data.message)
+      }).catch(function (err) {
+        console.log(err)
+      })
+    }
+  }
 }
 </script>
 
@@ -98,7 +98,7 @@ export default{
     justify-content: space-around;
     align-items: center;
     box-shadow:0px 8px 16px 0px rgba(0,0,0,0.8);
-  }  
+  }
   #bugForm{
     border:3px solid lightblue;
     border-radius:10px;

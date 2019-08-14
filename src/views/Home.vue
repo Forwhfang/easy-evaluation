@@ -8,14 +8,14 @@
         </div>
         <div id="menu">
           <a href="#homeContent">首页</a>
-          <router-link to="./Detail">评价分析</router-link>
-          <router-link to="./Contact">联系我们</router-link>
+          <a @click="toPage('./Detail')">评价分析</a>
+          <a @click="toPage('./Contact')">联系我们</a>
           <a id="signup" style="float: right; cursor:pointer" @click="showDiv('forSignUp')">注册</a>
           <a id="login" style="float: right; cursor:pointer" @click="showDiv('forSignIn')">登录</a>
           <a id="logout" style="float: right; cursor:pointer; display:none;" @click="logOut()">退出</a>
         </div>
       </div>
-     <!--***************************************首页下半部分********************************-->    
+     <!--***************************************首页下半部分********************************-->
       <div id="homeContent">
         <div class="picShow">
           <img src="../assets/timgHKUKEOA9.jpg">
@@ -28,7 +28,7 @@
         <p>因此，我们这款软件将对每一条评论进行<b>情感分析</b>后判断是好评还是差评，
         然后将统计结果进行<b>可视化展出</b>，那么将给用户的选择带来很大的便利。</p>
         <p>另外提供对评论区的<b>自动标签提取功能</b>，针对某件的商品的评论自动提取商品标签（如合身、舒适、尺码偏大等等），然后对商品的评论区按标签进行分类展示，如此用户就可以方便地选择相应的评论进行查看。</p>
-        <p style="color:cornflowerblue">用户只需要登录账号，输入批量商品评论或商品链接，等待一定时间，即可看到智能分析结果。</p>   
+        <p style="color:cornflowerblue">用户只需要登录账号，输入批量商品评论或商品链接，等待一定时间，即可看到智能分析结果。</p>
       </div>
      <!--***************************************注册登录部分********************************-->
       <div id="bg_div" class="bg_shadow" @click="hideDiv()"></div>
@@ -77,7 +77,7 @@
       </div>
      <!--*****************************************弹窗显示提示信息************************************-->
       <div id="msgShow">
-      </div>    
+      </div>
     </div>
 </template>
 
@@ -115,22 +115,29 @@ export default {
     }
   },
   mounted () {
-    this.init ()
+    this.init()
   },
   methods: {
     init: function () {
-      if(this.global.ifLogIn){
+      if (this.global.ifLogIn) {
         document.getElementById('login').style.display = 'none'
         document.getElementById('signup').style.display = 'none'
         document.getElementById('logout').style.display = 'block'
-      }else{
+      } else {
         document.getElementById('login').style.display = 'block'
         document.getElementById('signup').style.display = 'block'
         document.getElementById('logout').style.display = 'none'
       }
     },
-    showDiv: function (show_div) {
-      document.getElementById(show_div).style.display = 'block'
+    toPage: function (page) {
+      if (this.global.ifLogIn) {
+        this.$router.push(page)
+      } else {
+        this.$options.methods.showmsg('请先登录！')
+      }
+    },
+    showDiv: function (showdiv) {
+      document.getElementById(showdiv).style.display = 'block'
       document.getElementById('bg_div').style.display = 'block'
       var bgDiv = document.getElementById('bg_div')
       bgDiv.style.width = document.body.scrollWidth
@@ -161,7 +168,7 @@ export default {
       }).then(function (res) {
         console.log(res.data)
         self.$options.methods.showmsg(res.data.message)
-        if(res.data.code=='success') {
+        if (res.data.code === 'success') {
           self.$options.methods.hideDiv()
           self.global.ifLogIn = true
           document.getElementById('login').style.display = 'none'
@@ -247,11 +254,11 @@ export default {
     },
     logOut: function () {
       this.global.ifLogIn = false
-      this.$options.methods.showmsg("当前用户已退出")
+      this.$options.methods.showmsg('当前用户已退出')
       document.getElementById('login').style.display = 'block'
       document.getElementById('signup').style.display = 'block'
       document.getElementById('logout').style.display = 'none'
-      /*axios({
+      /* axios({
         url: 'http://47.107.123.141/api/logout',
         method: 'POST',
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
@@ -259,7 +266,7 @@ export default {
       }).then(function (res) {
         console.log(res.data)
         self.$options.methods.showmsg(res.data.message)
-        if(res.data.code = 'success'){
+        if(res.data.code == 'success'){
           document.getElementById('login').style.display = 'block'
           document.getElementById('signup').style.display = 'block'
           document.getElementById('logout').style.display = 'none'
@@ -267,12 +274,12 @@ export default {
       }).catch(function (err) {
         console.log(err)
         self.$options.methods.showmsg(err)
-      })*/
+      }) */
     },
     showmsg: function (msg) {
       document.getElementById('msgShow').innerHTML = msg
       document.getElementById('msgShow').style.display = 'block'
-      setTimeout(function(){document.getElementById('msgShow').style.display='none'},5000)
+      setTimeout(function () { document.getElementById('msgShow').style.display = 'none' }, 5000)
     }
   }
 }
