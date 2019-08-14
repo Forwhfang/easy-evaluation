@@ -10,16 +10,16 @@
           <a href="#homeContent">首页</a>
           <a @click="toPage('./Detail')">评价分析</a>
           <a @click="toPage('./Contact')">联系我们</a>
-          <a id="signup" style="float: right; cursor:pointer" @click="showDiv('forSignUp')">注册</a>
-          <a id="login" style="float: right; cursor:pointer" @click="showDiv('forSignIn')">登录</a>
-          <a id="logout" style="float: right; cursor:pointer; display:none;" @click="logOut()">退出</a>
+          <a id="signup" style="float: right;" @click="showDiv('forSignUp')">注册</a>
+          <a id="login" style="float: right;" @click="showDiv('forSignIn')">登录</a>
+          <a id="logout" style="float: right; display:none;" @click="logOut()">退出</a>
         </div>
       </div>
      <!--***************************************首页下半部分********************************-->
       <div id="homeContent">
         <div class="picShow">
           <img src="../assets/timgHKUKEOA9.jpg">
-          <img src="../assets/微信图片_20190801174003.png">
+          <img src="../assets/输入链接.gif" style="height:300px;padding:40px;">
           <img src="../assets/皮卡丘.jpg">
         </div>
         <p>移动支付的广泛应用使得电商在最近几年已经成为很多用户购物的首选，
@@ -310,6 +310,7 @@ export default {
     padding:18px 30px;
     float:left;
     color:#fff;
+    cursor:pointer;
     font-weight: bold;
     font-size:20px;
     text-decoration: none !important;
