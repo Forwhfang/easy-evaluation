@@ -18,9 +18,9 @@
      <!--***************************************首页下半部分********************************-->    
       <div id="homeContent">
         <div class="picShow">
-          <img src="https://raw.githubusercontent.com/WindyZYY/myPicSource/master/timgHKUKEOA9.jpg">
-          <img src="https://raw.githubusercontent.com/WindyZYY/myPicSource/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20190801174003.png">
-          <img src="https://raw.githubusercontent.com/WindyZYY/myPicSource/master/%E7%9A%AE%E5%8D%A1%E4%B8%98.jpg">
+          <img src="../assets/timgHKUKEOA9.jpg">
+          <img src="../assets/微信图片_20190801174003.png">
+          <img src="../assets/皮卡丘.jpg">
         </div>
         <p>移动支付的广泛应用使得电商在最近几年已经成为很多用户购物的首选，
         用户在进行网购的时候大多会有查看评价区的习惯，以判断商品是否值得购买。</p>
@@ -77,8 +77,6 @@
       </div>
      <!--*****************************************弹窗显示提示信息************************************-->
       <div id="msgShow">
-        <div id="msg"></div>
-        <span @click="hidemsg()">确定</span>
       </div>    
     </div>
 </template>
@@ -116,7 +114,21 @@ export default {
       this.confirmcode = val
     }
   },
+  mounted () {
+    this.init ()
+  },
   methods: {
+    init: function () {
+      if(this.global.ifLogIn){
+        document.getElementById('login').style.display = 'none'
+        document.getElementById('signup').style.display = 'none'
+        document.getElementById('logout').style.display = 'block'
+      }else{
+        document.getElementById('login').style.display = 'block'
+        document.getElementById('signup').style.display = 'block'
+        document.getElementById('logout').style.display = 'none'
+      }
+    },
     showDiv: function (show_div) {
       document.getElementById(show_div).style.display = 'block'
       document.getElementById('bg_div').style.display = 'block'
@@ -148,9 +160,10 @@ export default {
         data: qs.stringify(formData)
       }).then(function (res) {
         console.log(res.data)
-        alert(res.data.message)
+        self.$options.methods.showmsg(res.data.message)
         if(res.data.code=='success') {
           self.$options.methods.hideDiv()
+          self.global.ifLogIn = true
           document.getElementById('login').style.display = 'none'
           document.getElementById('signup').style.display = 'none'
           document.getElementById('logout').style.display = 'block'
@@ -173,6 +186,7 @@ export default {
         'email': this.mailbox,
         'confirmcode': this.confirmcode
       }
+      var self = this
       axios({
         url: 'http://47.107.123.141/api/reset',
         method: 'POST',
@@ -180,15 +194,17 @@ export default {
         data: qs.stringify(formData)
       }).then(function (res) {
         console.log(res.data)
-        alert(res.data.message)
+        self.$options.methods.showmsg(res.data.message)
       }).catch(function (err) {
         console.log(err)
+        self.$options.methods.showmsg(err)
       })
     },
     verify: function () {
       let formData = {
         'email': this.mailbox
       }
+      var self = this
       axios({
         url: 'http://47.107.123.141/api/verify',
         method: 'POST',
@@ -196,8 +212,10 @@ export default {
         data: qs.stringify(formData)
       }).then(function (res) {
         console.log(res.data.code)
+        self.$options.methods.showmsg(res.data.message)
       }).catch(function (err) {
         console.log(err)
+        self.$options.methods.showmsg(err)
       })
     },
     signUp: function () {
@@ -213,6 +231,7 @@ export default {
         'email': this.mailbox,
         'confirmcode': this.confirmcode
       }
+      var self = this
       axios({
         url: 'http://47.107.123.141/api/register',
         method: 'POST',
@@ -220,20 +239,26 @@ export default {
         data: qs.stringify(formData)
       }).then(function (res) {
         console.log(res.data)
-        alert(res.data.message)
+        self.$options.methods.showmsg(res.data.message)
       }).catch(function (err) {
         console.log(err)
+        self.$options.methods.showmsg(err)
       })
     },
     logOut: function () {
-      axios({
+      this.global.ifLogIn = false
+      this.$options.methods.showmsg("当前用户已退出")
+      document.getElementById('login').style.display = 'block'
+      document.getElementById('signup').style.display = 'block'
+      document.getElementById('logout').style.display = 'none'
+      /*axios({
         url: 'http://47.107.123.141/api/logout',
         method: 'POST',
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: null
       }).then(function (res) {
         console.log(res.data)
-        alert(res.data.message)
+        self.$options.methods.showmsg(res.data.message)
         if(res.data.code = 'success'){
           document.getElementById('login').style.display = 'block'
           document.getElementById('signup').style.display = 'block'
@@ -241,15 +266,13 @@ export default {
         }
       }).catch(function (err) {
         console.log(err)
-      })
+        self.$options.methods.showmsg(err)
+      })*/
     },
     showmsg: function (msg) {
-      document.getElementById('msg').innerHTML = msg
+      document.getElementById('msgShow').innerHTML = msg
       document.getElementById('msgShow').style.display = 'block'
-      setTimeout(function(){document.getElementById('msgShow').style.display='none'},800)
-    },
-    hide: function () {
-      document.getElementById('msgShow').style.display = 'none'
+      setTimeout(function(){document.getElementById('msgShow').style.display='none'},5000)
     }
   }
 }
@@ -346,25 +369,20 @@ export default {
   }
   #msgShow{
     display:none;
-    border:1px solid lightblue;
+    border:2px solid lightblue;
     border-radius:10px;
     background:white;
-    width:100px;
-    height:auto;
-    top:0;
+    width:200px;
+    height:60px;
+    position:absolute;
+    top:0;right:0;
     padding:10px;
+    margin:20px;
+    font-size:16px;
+    font-weight:bold;
     overflow:hidden;
     transition:0.5s;
     z-index:10000;
-  }
-  #msgShow span{
-    margin-top:10px;
-    padding:3px;
-    border-radius:5px;
-    background-color:cornflowerblue;
-    z-index:1000;
-  }
-  #msgShow span:hover{
-    background-color:rgb(56,120,238)
+    box-shadow:0px 8px 16px 0px rgba(100,149,237,0.6);
   }
 </style>

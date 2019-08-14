@@ -1,4 +1,4 @@
-const ifLogIn = false
+var ifLogIn = false
 
 export default{
     ifLogIn

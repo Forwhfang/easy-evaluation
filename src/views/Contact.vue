@@ -3,7 +3,7 @@
         <div class="row" id="contactWithUs">
           <div>
             <router-link to="./">
-            <img style="height:400px;text-indent: 20px;" src="https://raw.githubusercontent.com/WindyZYY/myPicSource/master/timg.jpg">
+            <img style="height:400px;text-indent: 20px;" src="../assets/timg.jpg">
             <p style="color:grey; font-size:14px;text-decoration:none; float:center;">点击图片返回主页</p>
             </router-link>
           </div>
