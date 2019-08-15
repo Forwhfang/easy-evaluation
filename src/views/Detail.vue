@@ -24,6 +24,9 @@
     </div>
     <div class="result" v-show="isShow === true">
       <h3 class="title">结 果 展 示</h3>
+      <div class="container" v-show="isLoading === true">
+        <img :src="`${publicPath}loading.gif`" />
+      </div>
       <div class="container" v-show="isBrand === true">
         <p>占位符</p>
       </div>
@@ -62,6 +65,7 @@ export default {
       link: '',
       comment: '',
       isShow: false,
+      isLoading: false,
       isBrand: false,
       isLink: false,
       isComment: false,
@@ -73,21 +77,25 @@ export default {
   methods: {
     onShow: function (showed) {
       if (showed === 'brand') {
+        this.isLoading = false
         this.isBrand = true
         this.isLink = false
         this.isComment = false
         this.isError = false
       } else if (showed === 'link') {
+        this.isLoading = false
         this.isBrand = false
         this.isLink = true
         this.isComment = false
         this.isError = false
       } else if (showed === 'comment') {
+        this.isLoading = false
         this.isBrand = false
         this.isLink = false
         this.isComment = true
         this.isError = false
       } else if (showed === 'error') {
+        this.isLoading = false
         this.isBrand = false
         this.isLink = false
         this.isComment = false
@@ -96,10 +104,12 @@ export default {
     },
     onSubmitBrand: function () {
       this.isShow = true
+      this.isLoading = true
       // console.log(this.brand)
     },
     onSubmitLink: function () {
       this.isShow = true
+      this.isLoading = true
       // console.log(this.link)
       let that = this
       let formData = {
@@ -228,6 +238,7 @@ export default {
     },
     onSubmitComment: function () {
       this.isShow = true
+      this.isLoading = true
       // console.log(this.comment)
       let that = this
       let formData = {
