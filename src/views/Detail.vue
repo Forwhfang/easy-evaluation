@@ -76,7 +76,13 @@ export default {
   },
   methods: {
     onShow: function (showed) {
-      if (showed === 'brand') {
+      if (showed === 'loading') {
+        this.isLoading = true
+        this.isBrand = false
+        this.isLink = false
+        this.isComment = false
+        this.isError = false
+      } else if (showed === 'brand') {
         this.isLoading = false
         this.isBrand = true
         this.isLink = false
@@ -104,12 +110,14 @@ export default {
     },
     onSubmitBrand: function () {
       this.isShow = true
-      this.isLoading = true
+      window.scrollTo(0,650)
+      this.onShow('loading')
       // console.log(this.brand)
     },
     onSubmitLink: function () {
       this.isShow = true
-      this.isLoading = true
+      window.scrollTo(0,650)
+      this.onShow('loading')
       // console.log(this.link)
       let that = this
       let formData = {
@@ -238,7 +246,8 @@ export default {
     },
     onSubmitComment: function () {
       this.isShow = true
-      this.isLoading = true
+      window.scrollTo(0,650)
+      this.onShow('loading')
       // console.log(this.comment)
       let that = this
       let formData = {
