@@ -32,8 +32,19 @@
       </div>
       <div class="container" v-show="isLink === true">
         <div class="link-result">
-          <div style="width: 500px; height: 500px" id="barchart"></div>
-          <div style="width: 500px; height: 500px" id="piechart"></div>
+          <div style="margin-bottom: 20px; margin-top: 10px;">
+            <p style="font-size: 22px; font-weight: 500; margin-bottom: 35px;">共爬取 <span style="font-size: 30px; color: #ffce00">{{ linkResultTotalComment }}</span> 条顾客评论，总评分为 <span style="font-size: 30px; color: #0066c0">{{ linkResultTotalStar }}</span> 星</p>
+            <div class="progress-item" v-for="star in linkResultStars" :key="star['desc']">
+              <div class="progress-item-title">{{ star['desc'] }}</div>
+              <div class="progress-container"><div class="progress" :style="{ width: star['perc']+'%' }"></div></div>
+              <div class="progress-item-percentage">{{ star['perc'] }}%</div>
+            </div>
+          </div>
+          <div style="margin-bottom: 20px; margin-top: 20px;">
+            <p style="font-size: 22px; font-weight: 500; margin-bottom: 35px;">以下是对评论进行分析后得出的结论</p>
+            <div style="width: 500px; height: 500px;" id="barchart"></div>
+            <div style="width: 500px; height: 500px;" id="piechart"></div>
+          </div>
         </div>
       </div>
       <div class="container" v-show="isComment === true">
@@ -72,6 +83,9 @@ export default {
       isError: false,
       commentResultPolarity: '',
       commentResultScore: '',
+      linkResultTotalComment: 0,
+      linkResultTotalStar: 0,
+      linkResultStars: []
     }
   },
   methods: {
@@ -110,13 +124,13 @@ export default {
     },
     onSubmitBrand: function () {
       this.isShow = true
-      window.scrollTo(0,650)
+      window.scrollTo(0, 650)
       this.onShow('loading')
       // console.log(this.brand)
     },
     onSubmitLink: function () {
       this.isShow = true
-      window.scrollTo(0,650)
+      window.scrollTo(0, 650)
       this.onShow('loading')
       // console.log(this.link)
       let that = this
@@ -134,6 +148,15 @@ export default {
           that.onShow('link')
           let positiveNum = res.data.positive_number
           let nagetiveNum = res.data.negative_number
+          let stars = res.data.stars
+          that.linkResultStars = []
+          that.linkResultStars.push({ 'desc': '5 星', 'perc': parseInt(stars[6])})
+          that.linkResultStars.push({ 'desc': '4 星', 'perc': parseInt(stars[5])})
+          that.linkResultStars.push({ 'desc': '3 星', 'perc': parseInt(stars[4])})
+          that.linkResultStars.push({ 'desc': '2 星', 'perc': parseInt(stars[3])})
+          that.linkResultStars.push({ 'desc': '1 星', 'perc': parseInt(stars[2])})
+          that.linkResultTotalStar = parseFloat(stars[1])
+          that.linkResultTotalComment = parseInt(stars[0])
           echarts.init(
             document.getElementById('barchart')
           ).setOption({
@@ -246,7 +269,7 @@ export default {
     },
     onSubmitComment: function () {
       this.isShow = true
-      window.scrollTo(0,650)
+      window.scrollTo(0, 650)
       this.onShow('loading')
       // console.log(this.comment)
       let that = this
@@ -492,6 +515,46 @@ export default {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+}
+
+.progress-container {
+  width: 400px;
+  height: 20px;
+  background-color: #f3f3f3;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+}
+
+.progress {
+  height:20px;
+  background-color: #ffce00;
+}
+
+.progress-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.progress-item-title {
+  font-weight: 500;
+  font-size: 18px;
+  color: #0066c0;
+  margin-right: 20px;
+}
+
+.progress-item-percentage {
+  font-weight: 500;
+  font-size: 15px;
+  color: #555;
+  margin-left: 12px;
+}
+
+.b {
+  color:#fff;
+  font-weight: 100;
+  font-size: 12px;
 }
 
 </style>
