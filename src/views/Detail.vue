@@ -28,7 +28,11 @@
         <img :src="`${publicPath}loading.gif`" />
       </div>
       <div class="container" v-show="isBrand === true">
-        <p>占位符</p>
+        <div style="margin-bottom: 20px; margin-top: 20px;">
+          <p style="font-size: 22px; font-weight: 500; margin-bottom: 35px;">共爬取 <span style="font-size: 30px; color: cornflowerblue">{{ brandResultTotalComment }}</span> 条顾客评论</p>
+          <div style="width: 500px; height: 500px;" id="barchart4brand"></div>
+          <div style="width: 500px; height: 500px;" id="piechart4brand"></div>
+        </div>
       </div>
       <div class="container" v-show="isLink === true">
         <div class="link-result">
@@ -42,8 +46,8 @@
           </div>
           <div style="margin-bottom: 20px; margin-top: 20px;">
             <p style="font-size: 22px; font-weight: 500; margin-bottom: 35px;">以下是对评论进行分析后得出的结论</p>
-            <div style="width: 500px; height: 500px;" id="barchart"></div>
-            <div style="width: 500px; height: 500px;" id="piechart"></div>
+            <div style="width: 500px; height: 500px;" id="barchart4link"></div>
+            <div style="width: 500px; height: 500px;" id="piechart4link"></div>
           </div>
         </div>
       </div>
@@ -85,10 +89,117 @@ export default {
       commentResultScore: '',
       linkResultTotalComment: 0,
       linkResultTotalStar: 0,
-      linkResultStars: []
+      linkResultStars: [],
+      brandResultTotalComment: 0
     }
   },
   methods: {
+    drawBarChart: function (elemId, positiveNum, nagetiveNum) {
+      echarts.init(
+        document.getElementById(elemId)
+      ).setOption({
+        title: { text: '柱形图' },
+        xAxis: {
+          type: 'category',
+          data: [
+            {
+              value: '好 评',
+              textStyle: {
+                align: 'center',
+                color: 'DeepPink',
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+                fontSize: 18
+              }
+            },
+            {
+              value: '差 评',
+              textStyle: {
+                align: 'center',
+                color: 'cornflowerblue',
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+                fontSize: 18
+              }
+            }]
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [{
+          type: 'bar',
+          barWidth: '40%',
+          itemStyle: {
+            normal: {
+              label: {
+                show: true,
+                textStyle: {
+                  fontSize: 14
+                }
+              }
+            }
+          },
+          data: [
+            {
+              value: positiveNum, 
+              itemStyle: {
+                color: 'DeepPink',
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            },
+            {
+              value: nagetiveNum,
+              itemStyle: {
+                color: 'cornflowerblue',
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }]
+        }]
+      })
+    },
+    drawPieChart: function (elemId, positiveNum, nagetiveNum) {
+      echarts.init(
+        document.getElementById(elemId)
+      ).setOption({
+        title: { text: '饼状图' },
+        legend: {
+            data: [{
+              name: '好评',
+              icon: 'circle'
+            },
+            {
+              name: '差评',
+              icon: 'circle'
+            }]
+        },
+        series: [{
+          type: 'pie',
+          radius: '60%',
+          label: {
+            normal: {
+              show: true,
+              position: 'inside',
+              formatter: '{b} {d}%',
+              textStyle: {
+                fontSize: 20
+              }
+            }
+          },
+          data: [
+              { value: positiveNum,
+                name: '好 评',
+                itemStyle: {
+                  color: 'DeepPink',
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }},
+              { value: nagetiveNum,
+                name: '差 评',
+                itemStyle: {
+                  color: 'cornflowerblue',
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }}
+          ]
+        }]
+      })
+    },
     onShow: function (showed) {
       if (showed === 'loading') {
         this.isLoading = true
@@ -127,6 +238,31 @@ export default {
       window.scrollTo(0, 650)
       this.onShow('loading')
       // console.log(this.brand)
+      let that = this
+      let formData = {
+          'brand': this.brand
+      }
+      axios({
+        url: 'http://47.107.123.141/api/analyze_brand',
+        method: 'POST',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(formData)
+      }).then(function (res) {
+        // console.log(res)
+        if (res.data.code === 'success') {
+          that.onShow('brand')
+          let positiveNum = res.data.positive_number
+          let nagetiveNum = res.data.negative_number
+          that.brandResultTotalComment = positiveNum + nagetiveNum
+          that.drawBarChart('barchart4brand', positiveNum, nagetiveNum)
+          that.drawPieChart('piechart4brand', positiveNum, nagetiveNum)
+        } else { // res.data.code === 'failed'
+          that.onShow('error')
+        }
+      }).catch(function (err) {
+        console.log(err)
+        that.onShow('error')
+      })
     },
     onSubmitLink: function () {
       this.isShow = true
@@ -148,6 +284,8 @@ export default {
           that.onShow('link')
           let positiveNum = res.data.positive_number
           let nagetiveNum = res.data.negative_number
+          that.drawBarChart('barchart4link', positiveNum, nagetiveNum)
+          that.drawPieChart('piechart4link', positiveNum, nagetiveNum)
           let stars = res.data.stars
           that.linkResultStars = []
           that.linkResultStars.push({ 'desc': '5 星', 'perc': parseInt(stars[6])})
@@ -157,108 +295,6 @@ export default {
           that.linkResultStars.push({ 'desc': '1 星', 'perc': parseInt(stars[2])})
           that.linkResultTotalStar = parseFloat(stars[1])
           that.linkResultTotalComment = parseInt(stars[0])
-          echarts.init(
-            document.getElementById('barchart')
-          ).setOption({
-            title: { text: '柱形图' },
-            xAxis: {
-              type: 'category',
-              data: [
-                {
-                  value: '好 评',
-                  textStyle: {
-                    align: 'center',
-                    color: 'DeepPink',
-                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-                    fontSize: 18
-                  }
-                },
-                {
-                  value: '差 评',
-                  textStyle: {
-                    align: 'center',
-                    color: 'cornflowerblue',
-                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-                    fontSize: 18
-                  }
-                }]
-            },
-            yAxis: {
-              type: 'value'
-            },
-            series: [{
-              type: 'bar',
-              barWidth: '40%',
-              itemStyle: {
-                normal: {
-                  label: {
-                    show: true,
-                    textStyle: {
-                      fontSize: 14
-                    }
-                  }
-                }
-              },
-              data: [
-                {
-                  value: positiveNum, 
-                  itemStyle: {
-                    color: 'DeepPink',
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                  }
-                },
-                {
-                  value: nagetiveNum,
-                  itemStyle: {
-                    color: 'cornflowerblue',
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                  }
-                }]
-            }]
-          })
-          echarts.init(
-            document.getElementById('piechart')
-          ).setOption({
-            title: { text: '饼状图' },
-            legend: {
-                data: [{
-                  name: '好评',
-                  icon: 'circle'
-                },
-                {
-                  name: '差评',
-                  icon: 'circle'
-                }]
-            },
-            series: [{
-              type: 'pie',
-              radius: '60%',
-              label: {
-                normal: {
-                  show: true,
-                  position: 'inside',
-                  formatter: '{b} {d}%',
-                  textStyle: {
-                    fontSize: 20
-                  }
-                }
-              },
-              data: [
-                  { value: positiveNum,
-                    name: '好 评',
-                    itemStyle: {
-                      color: 'DeepPink',
-                      shadowColor: 'rgba(0, 0, 0, 0.5)'
-                  }},
-                  { value: nagetiveNum,
-                    name: '差 评',
-                    itemStyle: {
-                      color: 'cornflowerblue',
-                      shadowColor: 'rgba(0, 0, 0, 0.5)'
-                  }}
-              ]
-            }]
-          })
         } else { // res.data.code === 'failed'
           that.onShow('error')
         }
