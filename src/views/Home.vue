@@ -18,11 +18,10 @@
       </div>
      <!--***************************************首页下半部分********************************-->
       <div id="homeContent">
-        <div class="picShow">
-          <img src="../assets/timgHKUKEOA9.jpg">
-          <img src="../assets/输入链接.gif" style="height:300px;padding:40px;">
-          <img src="../assets/皮卡丘.jpg">
-        </div>
+        <!--<div class="picShow" onload="showPic">
+          <img id="image" style="height:300px;padding:40px;">
+        </div>-->
+        <v-slider></v-slider>
         <p>移动支付的广泛应用使得电商在最近几年已经成为很多用户购物的首选，
         用户在进行网购的时候大多会有查看评价区的习惯，以判断商品是否值得购买。</p>
         <p>但在面对<b>繁多</b>的用户评价时，用户需要一条一条的查看后作出判断显然不是很方便。</p>
@@ -39,12 +38,12 @@
           <p style="font-family:monospace;font-style:italic;">Sign In</p>
         </div>
         <input type="text" name="user_id" placeholder="用户名" v-model="userID" required><br>
-        <input type="password" name="pwd" placeholder="密码" v-model="rePWD" required><br><br>
+        <input type="password" name="pwd" placeholder="密码" v-model="rePWD" @keyup.enter="signIn()" required><br><br>
         <input type="checkbox" id="remInfo" style="float:left;" v-model="remember">
         <label for="remInfo" style="float:left;">记住密码</label>
         <label for="autoSignIn" style="float:right;">自动登录</label>
         <input type="checkbox" id="autoSignIn" v-model="autoS" style="float:right;"><br>
-        <button style="font-size:24px;" @click="signIn()" @keyup.enter="signIn()">登录</button><br><br>
+        <button style="font-size:24px;" @click="signIn()">登录</button><br><br>
         <span style="float: left;color:blue;font-weight:800;cursor:pointer;" @click="changeView('forSignIn','forSignUp')">新用户注册</span>
         <span style="float: right;color:rgb(161, 159, 159);cursor:pointer;" @click="changeView('forSignIn','forReset')">忘记密码</span>
       </div>
@@ -85,6 +84,7 @@
 <script>
 import axios from 'axios'
 import qs from 'qs'
+import Slider from './Slider.vue'
 export default {
   name: 'home',
   data: function () {
@@ -97,6 +97,9 @@ export default {
       mailbox: '',
       confirmcode: ''
     }
+  },
+  components: {
+    "v-slider": Slider
   },
   watch: {//监控各个变量的变化
     userID: function (val) {
