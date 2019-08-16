@@ -97,7 +97,7 @@ export default {
       confirmcode: ''
     }
   },
-  watch: {
+  watch: {//监控各个变量的变化
     userID: function (val) {
       this.userID = val
     },
@@ -114,11 +114,11 @@ export default {
       this.confirmcode = val
     }
   },
-  mounted () {
+  mounted () {//加载页面时检查是否登录
     this.init()
   },
   methods: {
-    init: function () {
+    init: function () {//检查用户是否登录
       if (this.global.ifLogIn) {
         document.getElementById('login').style.display = 'none'
         document.getElementById('signup').style.display = 'none'
@@ -129,30 +129,30 @@ export default {
         document.getElementById('logout').style.display = 'none'
       }
     },
-    toPage: function (page) {
+    toPage: function (page) {//页面跳转
       if (this.global.ifLogIn) {
         this.$router.push(page)
       } else {
         this.$options.methods.showmsg('请先登录！')
       }
     },
-    showDiv: function (showdiv) {
+    showDiv: function (showdiv) {//显示弹窗，用于登录/注册/找回密码
       document.getElementById(showdiv).style.display = 'block'
       document.getElementById('bg_div').style.display = 'block'
       var bgDiv = document.getElementById('bg_div')
       bgDiv.style.width = document.body.scrollWidth
     },
-    hideDiv: function () {
+    hideDiv: function () {//隐藏弹窗，显示主页面
       document.getElementById('forSignIn').style.display = 'none'
       document.getElementById('forSignUp').style.display = 'none'
       document.getElementById('forReset').style.display = 'none'
       document.getElementById('bg_div').style.display = 'none'
     },
-    changeView: function (oldDiv, newDiv) {
+    changeView: function (oldDiv, newDiv) {//用于注册/登录/找回密码间的跳转
       document.getElementById(oldDiv).style.display = 'none'
       document.getElementById(newDiv).style.display = 'block'
     },
-    signIn: function () {
+    signIn: function () {//实现登录功能
       console.log(this.userID)
       console.log(this.rePWD)
       let formData = {
@@ -180,7 +180,7 @@ export default {
         self.$options.methods.showmsg(err)
       })
     },
-    resetPwd: function () {
+    resetPwd: function () {//实现找回（重置）密码功能
       console.log(this.userID)
       console.log(this.userPwd)
       console.log(this.rePWD)
@@ -207,7 +207,7 @@ export default {
         self.$options.methods.showmsg(err)
       })
     },
-    verify: function () {
+    verify: function () {//获取验证码进行验证
       let formData = {
         'email': this.mailbox
       }
@@ -225,7 +225,7 @@ export default {
         self.$options.methods.showmsg(err)
       })
     },
-    signUp: function () {
+    signUp: function () {//实现注册功能
       console.log(this.userID)
       console.log(this.userPwd)
       console.log(this.rePWD)
@@ -252,7 +252,7 @@ export default {
         self.$options.methods.showmsg(err)
       })
     },
-    logOut: function () {
+    logOut: function () {//实现登出功能
       this.global.ifLogIn = false
       this.$options.methods.showmsg('当前用户已退出')
       document.getElementById('login').style.display = 'block'
@@ -276,7 +276,7 @@ export default {
         self.$options.methods.showmsg(err)
       }) */
     },
-    showmsg: function (msg) {
+    showmsg: function (msg) {//用于显示各个操作需要给出的提示和信息
       document.getElementById('msgShow').innerHTML = msg
       document.getElementById('msgShow').style.display = 'block'
       setTimeout(function () { document.getElementById('msgShow').style.display = 'none' }, 5000)
@@ -381,12 +381,12 @@ export default {
     border-radius:10px;
     background:white;
     width:200px;
-    height:60px;
+    height:auto;
     position:absolute;
     top:0;right:0;
     padding:10px;
     margin:20px;
-    font-size:16px;
+    font-size:20px;
     font-weight:bold;
     overflow:hidden;
     transition:0.5s;

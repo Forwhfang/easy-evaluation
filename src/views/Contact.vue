@@ -36,7 +36,7 @@ export default{
       conMail: '',
     }
   },
-  watch: {
+  watch: {//监控各变量的变化
     problem: function (val) {
       this.problem = val
     },
@@ -45,7 +45,7 @@ export default{
     }
   },
   methods:{
-    submitBug: function () {
+    submitBug: function () {//将用户反馈的信息提交
       console.log(this.problem)
       console.log(this.conMail)
       let formData = {

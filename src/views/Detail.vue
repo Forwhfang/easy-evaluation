@@ -94,7 +94,7 @@ export default {
     }
   },
   methods: {
-    drawBarChart: function (elemId, positiveNum, nagetiveNum) {
+    drawBarChart: function (elemId, positiveNum, nagetiveNum) {//根据分析结果做出可观性强的柱形图
       echarts.init(
         document.getElementById(elemId)
       ).setOption({
@@ -155,7 +155,7 @@ export default {
         }]
       })
     },
-    drawPieChart: function (elemId, positiveNum, nagetiveNum) {
+    drawPieChart: function (elemId, positiveNum, nagetiveNum) {//根据分析结果作饼状图
       echarts.init(
         document.getElementById(elemId)
       ).setOption({
@@ -200,7 +200,7 @@ export default {
         }]
       })
     },
-    onShow: function (showed) {
+    onShow: function (showed) {//控制下方结果展示板块的显示与隐藏
       if (showed === 'loading') {
         this.isLoading = true
         this.isBrand = false
@@ -233,7 +233,7 @@ export default {
         this.isError = true
       }
     },
-    onSubmitBrand: function () {
+    onSubmitBrand: function () {//输入品牌名称时的提交操作
       this.isShow = true
       window.scrollTo(0, 650)
       this.onShow('loading')
@@ -264,7 +264,7 @@ export default {
         that.onShow('error')
       })
     },
-    onSubmitLink: function () {
+    onSubmitLink: function () {//输入商品链接时的提交操作
       this.isShow = true
       window.scrollTo(0, 650)
       this.onShow('loading')
@@ -303,7 +303,7 @@ export default {
         that.onShow('error')
       })
     },
-    onSubmitComment: function () {
+    onSubmitComment: function () {//输入评论时的提交操作
       this.isShow = true
       window.scrollTo(0, 650)
       this.onShow('loading')
