@@ -1,10 +1,11 @@
 <template>
     <div class="home">
+     <!--*****************************************动态背景**********************************-->
+     
      <!--***************************************首页上半部分********************************-->
       <div id="header">
         <div id="logo" style="text-align:center;width:20%;padding:15px;">
-          <img alt="Vue logo" src="../assets/logo.png" style="width:20%;height:14%;"/>
-          <span style="font-size:60px">易评</span>
+          <img alt="Our logo" src="../assets/logo.png" style="width:30%;height:20%;"/>
         </div>
         <div id="menu">
           <a href="#homeContent">首页</a>
