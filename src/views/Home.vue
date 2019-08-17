@@ -21,15 +21,19 @@
         <div class="picShow">
           <v-slider></v-slider>
         </div>
+        <img src="../assets/intro.jpg" style="height: 400px; overflow: hidden; width: 40%; margin-left: 3%;">
+        <!--
         <div class="intro">
-          <p>移动支付的广泛应用使得电商在最近几年已经成为很多用户购物的首选，
-          用户在进行网购的时候大多会有查看评价区的习惯，以判断商品是否值得购买。</p>
-          <p>但在面对<b>繁多</b>的用户评价时，用户需要一条一条的查看后作出判断显然不是很方便。</p>
-          <p>因此，我们这款软件将对每一条评论进行<b>情感分析</b>后判断是好评还是差评，
-          然后将统计结果进行<b>可视化展出</b>，那么将给用户的选择带来很大的便利。</p>
-          <p>另外提供对评论区的<b>自动标签提取功能</b>，针对某件的商品的评论自动提取商品标签（如合身、舒适、尺码偏大等等），然后对商品的评论区按标签进行分类展示，如此用户就可以方便地选择相应的评论进行查看。</p>
-          <p style="color:cornflowerblue">用户只需要登录账号，输入批量商品评论或商品链接，等待一定时间，即可看到智能分析结果。</p>
+          <h2 style="color:cornflowerblue">应用简介</h2><br/>
+          <p>移动支付的广泛应用使得电商在最近几年已经成为很多用户购物的首选</p>
+          <p>用户在进行网购的时候大多会有查看评价区的习惯，以判断商品是否值得购买</p>
+          <p>但在面对<b>繁多</b>的用户评价时，用户需要一条一条的查看后作出判断显然不是很方便</p>
+          <p>因此，我们这款软件将对每一条评论进行<b>情感分析</b>后判断是好评还是差评</p>
+          <p>然后将统计结果进行<b>可视化展出</b>，那么将给用户的选择带来很大的便利</p>
+          <p style="color:cornflowerblue">用户只需要登录账号,输入批量商品评论或商品链接</p>
+          <p style="color:cornflowerblue">等待一定时间，即可看到智能分析结果</p>
         </div>
+        -->
       </div>
       <div style="float:left; overflow:hidden;">
         <img src="../assets/timg.gif" style="width:20%;">
@@ -373,7 +377,7 @@ export default {
     background:cornflowerblue;
     box-sizing: border-box;
   }
-<!--***************************************style for content****************************-->
+<!--首页内容-->
   div.picShow{
     margin:8px;
     border:1px solid #ccc;
@@ -386,14 +390,29 @@ export default {
     height:auto;
   }
   #homeContent{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    /*
     line-height:0.8;
-    -webkit-column-count: 2; /* Chrome, Safari, Opera */
-    -moz-column-count: 2; /* Firefox */
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
     column-count: 2;
     padding:20px;
     margin:10px;
+    */
   }
   div.intro{
+    height: 400px;
+    width: 700px;
+    min-width: 700px;
+    margin-left: 50px;
+    border:1px solid #ccc;
+    font-size: 16px;
+    /*
     margin:8px;
     border:1px solid #ccc;
     float:left;
@@ -401,6 +420,7 @@ export default {
     height:400px;
     line-height:1.5;
     font-size:16px;
+    */
   }
   #msgShow{
     display:none;
