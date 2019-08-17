@@ -48,19 +48,19 @@ export default {
     return {
       sliders:[
         {
-          img:'http://img.hb.aicdn.com/adbde61e4343dedd21e97ea7f22666825a8db7d077ffe-qn8Pjn_fw658'
+          img:'https://raw.githubusercontent.com/WindyZYY/myPicSource/master/logo.png'
         },
         {
-          img:'http://img.hb.aicdn.com/adeed7d28df6e776c2fa6032579c697381d1a82b7fe00-fwRqgn_fw658'
+          img:'https://github.com/WindyZYY/myPicSource/blob/master/%E8%BE%93%E5%85%A5%E9%93%BE%E6%8E%A5.gif?raw=true'
         },
         {
-          img:'http://img.hb.aicdn.com/ab7f48509b3c0353017d9a85ef1d12400c9b2724540d4-p3zouo_fw658'
+          img:'https://raw.githubusercontent.com/WindyZYY/myPicSource/master/1566028680(1).png'
         },
         {
-          img:'http://img.hb.aicdn.com/60f788fc2a846192f224b9e6d4904b30e54926211d3d67-ACFJ9G_fw658'
+          img:'https://raw.githubusercontent.com/WindyZYY/myPicSource/master/1566028576(1).png'
         },
         {
-          img:'http://img.hb.aicdn.com/22ded455284aab361b8d2056e82f74a891a019704296a-PSraEB_fw658'
+          img:'https://github.com/WindyZYY/myPicSource/blob/master/%E4%BB%A3%E7%A0%81.gif?raw=true'
         },
       ],
       imgWidth:600,
@@ -96,7 +96,6 @@ export default {
       direction === -1 ? this.currentIndex += offset/600 : this.currentIndex -= offset/600
       if (this.currentIndex > 5) this.currentIndex = 1
       if (this.currentIndex < 1) this.currentIndex = 5
-
       const destination = this.distance + offset * direction
       this.animate(destination, direction, speed)
     },
