@@ -22,9 +22,7 @@
       </ul>
       <ul class="dots">
         <li v-for="(dot, i) in sliders" :key="i"
-        :class="{dotted: i === (currentIndex-1)}"
-        @click = jump(i+1)
-        >
+        :class="{dotted: i === (currentIndex-1)}">
         </li>
       </ul>
     </div>
@@ -34,7 +32,7 @@
 <script>
 export default {
   name: 'slider',
-  props: {
+  props: {//设置初始速度和时间间隔
     initialSpeed: {
       type: Number,
       default: 30
@@ -46,7 +44,7 @@ export default {
   },
   data () {
     return {
-      sliders:[
+      sliders:[//图片展示的src
         {
           img:'https://raw.githubusercontent.com/WindyZYY/myPicSource/master/logo.png'
         },
@@ -63,11 +61,11 @@ export default {
           img:'https://github.com/WindyZYY/myPicSource/blob/master/%E4%BB%A3%E7%A0%81.gif?raw=true'
         },
       ],
-      imgWidth:600,
-      currentIndex:1,
+      imgWidth:600,//图片宽度
+      currentIndex:1,//当前图片标号
       distance:-600,
       transitionEnd: true,
-      speed: this.initialSpeed
+      speed: this.initialSpeed //图片滑动速度
     }
   },
   computed:{
@@ -84,54 +82,58 @@ export default {
     this.initial()
   },
   methods:{
-    initial() {
+    initial() {//页面加载时运行
       this.play()
-      window.onblur = function() { this.stop() }.bind(this)
-      window.onfocus = function() { this.play() }.bind(this)
+      window.onblur = function() { this.stop() }.bind(this)//页面失去焦点时停止展示
+      window.onfocus = function() { this.play() }.bind(this)//页面获得焦点时进行展示
     },
-    move(offset, direction, speed) {
+    move(offset, direction, speed) {//控制图片的移动
       console.log(speed)
       if (!this.transitionEnd) return
       this.transitionEnd = false
+      //direction为-1时表示往右滑，currentIndex加一，反之减一
       direction === -1 ? this.currentIndex += offset/600 : this.currentIndex -= offset/600
+      //实现图片的轮转
       if (this.currentIndex > 5) this.currentIndex = 1
       if (this.currentIndex < 1) this.currentIndex = 5
+      //计算destination，实现图片的移动
       const destination = this.distance + offset * direction
       this.animate(destination, direction, speed)
     },
-    animate(des, direc, speed) {
-      if (this.temp) {
+    animate(des, direc, speed) {//实现图片的移动
+      if (this.temp) {//如果有，则先取消计时事件
         window.clearInterval(this.temp);
         this.temp = null ;
       }
       this.temp = window.setInterval(() => {
         if ((direc === -1 && des < this.distance) || (direc === 1 && des > this.distance)) {
-          this.distance += speed * direc
+          this.distance += speed * direc //不断改变distance使之逐渐等于des，即图片移动效果
         } else {
           this.transitionEnd = true
           window.clearInterval(this.temp)
           this.distance = des
+          //确保图片能轮转
           if (des < -3000) this.distance = -600
           if (des > -600) this.distance = -3000
         }
       }, 20)
     },
-    jump(index) {
+    /*jump(index) {
       const direction = index - this.currentIndex >= 0 ? -1 : 1;
       const offset = Math.abs(index - this.currentIndex) * 600;
       const jumpSpeed = Math.abs(index - this.currentIndex) === 0 ? this.speed : Math.abs(index - this.currentIndex) * this.speed ;
       this.move(offset, direction, jumpSpeed)
-    },
-    play() {
-      if (this.timer) {
+    },*/
+    play() {//实现图片自动展示
+      if (this.timer) {//如果计时事件已存在，则取消
         window.clearInterval(this.timer)
         this.timer = null
       }
-      this.timer = window.setInterval(() => {
+      this.timer = window.setInterval(() => {//设置图片自动滑动
         this.move(600, -1, this.speed)
       }, this.interval)
     },
-    stop() {
+    stop() {//停止图片展示
       window.clearInterval(this.timer)
       this.timer = null
     }
