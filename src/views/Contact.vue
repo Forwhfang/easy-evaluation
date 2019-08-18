@@ -62,6 +62,7 @@ export default{
         alert(res.data.message)
       }).catch(function (err) {
         console.log(err)
+        alert(err)
       })
     }
   }
