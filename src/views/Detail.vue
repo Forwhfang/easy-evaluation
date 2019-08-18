@@ -9,11 +9,11 @@
       </div>
       <div class="content-right">
         <div class="brand">
-          <input class="brand-input" v-model="brand" placeholder="请输入品牌名称" />
+          <input class="brand-input" v-model="brand" placeholder="请输入品牌名称" v-on:keyup.enter="onSubmitBrand" />
           <button class="brand-submit" v-on:click="onSubmitBrand">提 交</button>
         </div>
         <div class="link">
-          <input class="link-input" v-model="link" placeholder="请输入商品链接" />
+          <input class="link-input" v-model="link" placeholder="请输入商品链接" v-on:keyup.enter="onSubmitLink" />
           <button class="link-submit" v-on:click="onSubmitLink">提 交</button>
         </div>
         <div class="comment">
@@ -25,11 +25,12 @@
     <div class="result" v-show="isShow === true">
       <h3 class="title">结 果 展 示</h3>
       <div class="container" v-show="isLoading === true">
+        <p style="font-size: 24px;">正在针对您的输入进行数据分析，请稍候......</p>
         <img :src="`${publicPath}loading.gif`" />
       </div>
       <div class="container" v-show="isBrand === true">
         <div style="margin-bottom: 20px; margin-top: 20px;">
-          <p style="font-size: 22px; font-weight: 500; margin-bottom: 35px;">共爬取 <span style="font-size: 30px; color: cornflowerblue">{{ brandResultTotalComment }}</span> 条顾客评论</p>
+          <p style="font-size: 22px; font-weight: 500; margin-bottom: 35px;">共有 <span style="font-size: 30px; color: cornflowerblue">{{ brandResultTotalComment }}</span> 条顾客评论</p>
           <div style="width: 500px; height: 500px;" id="barchart4brand"></div>
           <div style="width: 500px; height: 500px;" id="piechart4brand"></div>
         </div>
@@ -70,6 +71,7 @@
 <script>
 import axios from 'axios'
 import qs from 'qs'
+import { setTimeout } from 'timers';
 const echarts = require('echarts');
 export default {
   name: 'detail',
@@ -258,6 +260,7 @@ export default {
           that.drawPieChart('piechart4brand', positiveNum, nagetiveNum)
         } else { // res.data.code === 'failed'
           that.onShow('error')
+          setTimeout(()=>{alert(res.data.message)},100)
         }
       }).catch(function (err) {
         console.log(err)
@@ -287,16 +290,17 @@ export default {
           that.drawBarChart('barchart4link', positiveNum, nagetiveNum)
           that.drawPieChart('piechart4link', positiveNum, nagetiveNum)
           let stars = res.data.stars
-          that.linkResultStars = []
-          that.linkResultStars.push({ 'desc': '5 星', 'perc': parseInt(stars[6])})
-          that.linkResultStars.push({ 'desc': '4 星', 'perc': parseInt(stars[5])})
-          that.linkResultStars.push({ 'desc': '3 星', 'perc': parseInt(stars[4])})
-          that.linkResultStars.push({ 'desc': '2 星', 'perc': parseInt(stars[3])})
-          that.linkResultStars.push({ 'desc': '1 星', 'perc': parseInt(stars[2])})
-          that.linkResultTotalStar = parseFloat(stars[1])
           that.linkResultTotalComment = parseInt(stars[0])
+          that.linkResultTotalStar = parseFloat(stars[1])
+          that.linkResultStars = []
+          that.linkResultStars.push({ 'desc': '5 星', 'perc': (stars[2] === null) ? 0 : parseInt(stars[2])})
+          that.linkResultStars.push({ 'desc': '4 星', 'perc': (stars[3] === null) ? 0 : parseInt(stars[3])})
+          that.linkResultStars.push({ 'desc': '3 星', 'perc': (stars[4] === null) ? 0 : parseInt(stars[4])})
+          that.linkResultStars.push({ 'desc': '2 星', 'perc': (stars[5] === null) ? 0 : parseInt(stars[5])})
+          that.linkResultStars.push({ 'desc': '1 星', 'perc': (stars[6] === null) ? 0 : parseInt(stars[6])})
         } else { // res.data.code === 'failed'
           that.onShow('error')
+          setTimeout(()=>{alert(res.data.message)},100)
         }
       }).catch(function (err) {
         console.log(err)
@@ -325,6 +329,7 @@ export default {
           that.commentResultScore = res.data.score
         } else { // res.data.code === 'failed'
           that.onShow('error')
+          setTimeout(()=>{alert(res.data.message)},100)
         }
       }).catch(function (err) {
         console.log(err)
@@ -585,6 +590,7 @@ export default {
   font-size: 15px;
   color: #555;
   margin-left: 12px;
+  width: 5px;
 }
 
 .b {
