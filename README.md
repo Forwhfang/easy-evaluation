@@ -29,12 +29,6 @@ npm run serve
 npm run build
 ```
 
-```
-npm run test
-```
-
-Lints and fixes files
-
 ### 项目展示
 
 ###### 首页界面
