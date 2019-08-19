@@ -34,7 +34,7 @@
         </div>
         -->
       </div>
-      <div style="float:left; overflow:hidden;">
+      <div style="width:100%; float:left; overflow:hidden;">
         <img src="../assets/timg.gif" style="width:20%;">
         <img src="../assets/timg.gif" style="width:20%;">
         <img src="../assets/timg.gif" style="width:20%;">
