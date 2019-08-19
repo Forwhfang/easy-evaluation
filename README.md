@@ -39,16 +39,16 @@ Lints and fixes files
 
 ###### 首页界面
 
-![首页界面](C:\Users\心轩xuan\Desktop\software实训\easy-evaluation\首页界面.png)
+![首页界面](首页界面.png)
 
 ###### 输入评价
 
-![输入评价](C:\Users\心轩xuan\Desktop\software实训\easy-evaluation\输入评价.png)
+![输入评价](输入评价.png)
 
 ###### 结果展示
 
-![结果展示](C:\Users\心轩xuan\Desktop\software实训\easy-evaluation\结果展示.png)
+![结果展示](结果展示.png)
 
 ###### 联系我们
 
-![联系我们](C:\Users\心轩xuan\Desktop\software实训\easy-evaluation\联系我们.png)
+![联系我们](联系我们.png)
